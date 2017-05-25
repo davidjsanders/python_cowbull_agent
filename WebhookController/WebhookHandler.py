@@ -71,15 +71,24 @@ class WebhookHandler(MethodView):
         )
 
     def perform_newgame(self, cowbull_url=None, parameters=None):
-        if cowbull_url is None or not isinstance(cowbull_url, str):
-            raise TypeError("The Cowbull game URL is incorrectly configured!")
+        logging.debug("Fetching supported game modes")
+        game_modes = self._fetch_game_modes(cowbull_url)
 
         _parameters = parameters or {"mode": "normal"}
         _mode = _parameters.get('mode', None)
         if _mode is None:
             _mode = "normal"
 
+        if _mode not in game_modes:
+            raise ValueError("The mode {} is not supported".format(_mode))
+
         logging.debug("Starting a new game in {} mode". format(_mode))
+
+    def _fetch_game_modes(self, cowbull_url=None):
+        if cowbull_url is None or not isinstance(cowbull_url, str):
+            raise TypeError("The Cowbull game URL is incorrectly configured!")
+
+        return ["normal", "easy", "hard"]
 
     def _check_mimetype(self, request):
         request_mimetype = request.headers.get('Content-Type', None)
