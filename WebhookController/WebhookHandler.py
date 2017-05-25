@@ -105,7 +105,7 @@ class WebhookHandler(MethodView):
                 }]
             else:
                 table = r.json()
-                game_modes = str([mode["mode"] for mode in table])\
+                game_modes = str([str(mode["mode"]) for mode in table])\
                     .replace('[', '').replace(']', '').replace("'", "")
                 return game_modes
 
