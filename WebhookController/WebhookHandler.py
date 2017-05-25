@@ -103,7 +103,7 @@ class WebhookHandler(MethodView):
 
         key = [n["parameters"]["key"] for n in _contexts if n["name"] == "key"][0]
         digits_required = [n["parameters"]["digits"] for n in _contexts if n["name"] == "digits"][0]
-        guesses = [n["parameters"]["guesses"] for n in _contexts if n["name"] == "guesses"][0]
+        guesses = [n["parameters"]["guesses_remaining"] for n in _contexts if n["name"] == "guesses"][0]
         digits_guessed = [int(n) for n in _parameters.get("digitlist", None)]
 
         guess_analysis = helper.mkae_guess(key=key, digits_required=digits_required, digits=digits_guessed)
@@ -161,7 +161,7 @@ class WebhookHandler(MethodView):
         return_object = {
             "contextOut": [
                 {"name": "digits", "lifespan": 15, "parameters": {"digits": game_object["digits"]}},
-                {"name": "guesses", "lifespan": 15, "parameters": {"guesses": game_object["guesses"]}},
+                {"name": "guesses", "lifespan": 15, "parameters": {"guesses_remaining": game_object["guesses"]}},
                 {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}},
                 {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
             ],
