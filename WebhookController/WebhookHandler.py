@@ -71,9 +71,6 @@ class WebhookHandler(MethodView):
         webhook_response["parameters"] = parameters
         webhook_response["action"] = action
 
-        webhook_response["speech"] = webhook_response["displayText"] = "Hello!"
-        #webhook_response["payload"] = json_string
-
         return Response(
             status=200,
             mimetype="application/json",
