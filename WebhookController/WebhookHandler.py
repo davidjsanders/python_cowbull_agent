@@ -118,11 +118,14 @@ class WebhookHandler(MethodView):
         message_text = ""
         for a in analysis:
             if a["match"]:
-                message_text += "{} is a bull "
+                message_text += "{} is a bull".format(a["digit"])
             if a["in_word"]:
-                message_text += "{} is a cow "
+                message_text += "{} is a cow".format(a["digit"])
             if a["multiple"]:
                 message_text += "and occurs more than once. "
+            else:
+                message_text += ". "
+
         status = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
 
         logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
