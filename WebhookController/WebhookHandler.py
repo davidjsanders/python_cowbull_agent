@@ -53,7 +53,10 @@ class WebhookHandler(MethodView):
 
         try:
             if action.lower() == "newgame":
-                webhook_response["contextOut"] = self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
+                return_results = self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
+                webhook_response["contextOut"] = return_results["contextOut"]
+                webhook_response["speech"] = return_results["speech"]
+                webhook_response["displayText"] = return_results["displayText"]
         except IOError as ioe:
             return self._build_error_response(
                 status_code=503,
@@ -103,7 +106,7 @@ class WebhookHandler(MethodView):
                 {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
             ],
             "speech": text_return,
-            "text": text_return
+            "displayText": text_return
         }
 
         return return_object
