@@ -12,9 +12,12 @@ class WebhookHandler(MethodView):
     webhook_response = {
         "speech": None,
         "displayText": None,
+        "data": {},
         "source": "cowbull-agent",
-        "result": None,
-        "parameters": None
+        "followupEvent": {},
+        "contextOut": [],
+        "result": None,             # Shouldn't be here - for testing only
+        "parameters": None          # Shouldn't be here - for testing only
     }
 
     def post(self):
