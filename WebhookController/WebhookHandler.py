@@ -86,5 +86,8 @@ class WebhookHandler(MethodView):
         return Response(
             status=status_code,
             mimetype="application/json",
-            response=json.dumps(response)
+            response=json.dumps({
+                "status": status_code,
+                "message": response
+            })
         )
