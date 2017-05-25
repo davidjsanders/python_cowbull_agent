@@ -47,7 +47,10 @@ class WebhookHandler(MethodView):
         action = webhook_result.get('action', None)
         logging.debug("Processing action: {}".format(action))
 
-        self.webhook_response["parameters"] = webhook_result.get('parameters', None)
+        parameters = webhook_result.get('parameters', None)
+        logging.debug("Parameters are: {}".format(parameters))
+
+        self.webhook_response["parameters"] = parameters
         self.webhook_response["action"] = action
 
         self.webhook_response["speech"] = self.webhook_response["displayText"] = "Hello!"
