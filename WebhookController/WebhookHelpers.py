@@ -28,7 +28,11 @@ class WebhookHelpers(object):
 
         if r is not None:
             if r.status_code != 200:
-                raise IOError("Game reported an error: HTML Status Code = {}".format(r.status_code))
+                err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)
+                if r.status_code == 404:
+                    err_text = "The game engine reported a 404 (not found) error. The service may " \
+                               "be temporarily unavailable"
+                raise IOError(err_text)
             else:
                 table = r.json()
                 self.game_modes = str([str(mode["mode"]) for mode in table])\
