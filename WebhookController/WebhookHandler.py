@@ -124,7 +124,7 @@ class WebhookHandler(MethodView):
             _digits_guessed_text = _digits_guessed_text.replace('[', '').replace(']', '')
             response_text = "Congratulations! You won the game with {}".format(_digits_guessed_text)
         elif status.lower() == "lost":
-            response_text = "Sorry! You lost the game. The correct answer was {}"
+            response_text = message
         else:
             message_text = ""
             for a in analysis:
@@ -143,8 +143,6 @@ class WebhookHandler(MethodView):
             message_text += "You have {} goes remaining!".format(guesses_remaining)
             response_text = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
 
-#        logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
-#        logging.debug('Digits guessed are: {}'.format(digits_guessed))
 
         return {
             "contextOut": contexts,
