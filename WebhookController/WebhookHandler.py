@@ -38,6 +38,7 @@ class WebhookHandler(MethodView):
             return self._build_error_response(
                 response="No JSON was provided in the request!"
             )
+        logging.debug("JSON provided was: {}".format(json_string))
 
         webhook_result = json_string.get('result', None)
         if webhook_result is None:
