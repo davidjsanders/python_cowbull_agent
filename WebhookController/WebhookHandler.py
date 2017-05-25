@@ -62,7 +62,11 @@ class WebhookHandler(MethodView):
                 webhook_response["speech"] = return_results["speech"]
                 webhook_response["displayText"] = return_results["displayText"]
             elif action.lower() == "makeguess":
-                return_results = self.perform_makeguess(cowbull_url=cowbull_url, parameters=parameters)
+                return_results = self.perform_makeguess(
+                    cowbull_url=cowbull_url,
+                    parameters=parameters,
+                    contexts=contexts
+                )
                 webhook_response["contextOut"] = return_results["contextOut"]
                 webhook_response["speech"] = return_results["speech"]
                 webhook_response["displayText"] = return_results["displayText"]
@@ -86,15 +90,19 @@ class WebhookHandler(MethodView):
             response=json.dumps(webhook_response)
         )
 
-    def perform_makeguess(self, cowbull_url=None, parameters=None):
+    def perform_makeguess(self, cowbull_url=None, parameters=None, contexts=None):
         helper = WebhookHelpers(cowbull_url=cowbull_url)
 
         _parameters = parameters or []
         if _parameters == []:
-            raise ValueError("Parameters are none!")
+            raise ValueError("For some reason, no parameters are specified!")
+
+        _contexts = contexts or []
+        if _contexts == []:
+            raise ValueError("For some reason, no contexts are specified!")
 
         return {
-            "contextOut": [],
+            "contextOut": contexts,
             "speech": "This is a test",
             "displayText": "This is a test"
         }
