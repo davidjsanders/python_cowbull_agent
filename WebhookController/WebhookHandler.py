@@ -44,8 +44,11 @@ class WebhookHandler(MethodView):
                 response="No result data. The request was badly formed!"
             )
 
+        action = webhook_result.get('action', None)
+        logging.debug("Processing action: {}".format(action))
+
         self.webhook_response["parameters"] = webhook_result.get('parameters', None)
-        self.webhook_response["action"] = webhook_result.get('action', None)
+        self.webhook_response["action"] = action
 
         self.webhook_response["speech"] = self.webhook_response["displayText"] = "Hello!"
         #webhook_response["payload"] = json_string
