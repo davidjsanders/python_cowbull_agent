@@ -1,3 +1,4 @@
+import logging
 import requests
 from requests import exceptions
 
@@ -20,6 +21,7 @@ class WebhookHelpers(object):
         r = None
 
         try:
+            logging.debug("fetch_new_game: Connecting to {}".format(url))
             r = requests.get(url=url)
         except exceptions.ConnectionError as re:
             raise IOError("Game reported an error: {}".format(str(re)))
