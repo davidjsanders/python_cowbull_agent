@@ -109,16 +109,19 @@ class WebhookHandler(MethodView):
         guess_analysis = helper.mkae_guess(key=key, digits_required=digits_required, digits=digits_guessed)
         game = guess_analysis.get('game', None)
         outcome = guess_analysis.get('outcome', None)
-        status = game.get('status', None)
         message = outcome.get('message', None)
+        cows = outcome.get('cows', 0)
+        bulls = outcome.get('bulls', 0)
+#        status = outcome.get('status', None)
+        status = "You have {} cows and {} bulls.".format(cows, bulls)
 
         logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
         logging.debug('Digits guessed are: {}'.format(digits_guessed))
 
         return {
             "contextOut": contexts,
-            "speech": message,
-            "displayText": message
+            "speech": status,
+            "displayText": status
         }
 
     def perform_newgame(self, cowbull_url=None, parameters=None):
