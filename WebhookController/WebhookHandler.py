@@ -104,8 +104,10 @@ class WebhookHandler(MethodView):
         key = [n["parameters"]["key"] for n in _contexts if n["name"] == "key"][0]
         digits_required = [n["parameters"]["digits"] for n in _contexts if n["name"] == "digits"][0]
         guesses = [n["parameters"]["guesses"] for n in _contexts if n["name"] == "guesses"][0]
+        digits_guessed = _parameters.get("digitlist", None)
 
         logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
+        logging.debug('Digits guessed are: {}'.format(digits_guessed))
 
         return {
             "contextOut": contexts,
