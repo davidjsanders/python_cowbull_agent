@@ -92,12 +92,19 @@ class WebhookHandler(MethodView):
         logging.debug("Starting a new game in {} mode". format(_mode))
         game_object = helper.fetch_new_game()
 
-        return_object = [
-            {"name": "digits", "lifespan": 15, "parameters": {"digits": game_object["digits"]}},
-            {"name": "guesses", "lifespan": 15, "parameters": {"guesses": game_object["guesses"]}},
-            {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}},
-            {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
-        ]
+        text_return = "Okay, I've started a new game. You have {} guesses to guess {} numbers."\
+            .format(game_object["guesses"],game_object["digits"])
+
+        return_object = {
+            "contextOut": [
+                {"name": "digits", "lifespan": 15, "parameters": {"digits": game_object["digits"]}},
+                {"name": "guesses", "lifespan": 15, "parameters": {"guesses": game_object["guesses"]}},
+                {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}},
+                {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
+            ],
+            "speech": text_return,
+            "text": text_return
+        }
 
         return return_object
 
