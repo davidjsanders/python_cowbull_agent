@@ -7,6 +7,10 @@ handlers:
 - url: /.*
   script: app.app
 
+libraries:
+- name: ssl
+  version: latest
+
 env_variables:
   COWBULL_SERVER: "http://cowbull-test-project.appspot.com"
   COWBULL_PORT: 80
