@@ -1,0 +1,13 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+service: agent-server
+
+handlers:
+- url: /.*
+  script: app.app
+
+env_variables:
+  COWBULL_SERVER: "http://cowbull-test-project.appspot.com"
+  COWBULL_PORT: 80
+  LOGGING_LEVEL: 10

@@ -1,0 +1,40 @@
+{
+  "id": "ac333174-ffbe-4ce9-9610-c9450900fc62",
+  "timestamp": "2017-05-25T01:00:31.608Z",
+  "lang": "en",
+  "result": {
+    "source": "agent",
+    "resolvedQuery": "guess 1 2 3 4",
+    "action": "makeguess",
+    "actionIncomplete": false,
+    "parameters": {
+      "digitlist": [
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "contexts": [],
+    "metadata": {
+      "intentId": "11481c7d-9218-4089-ba66-ec3e1893cc65",
+      "webhookUsed": "false",
+      "webhookForSlotFillingUsed": "false",
+      "intentName": "I guess"
+    },
+    "fulfillment": {
+      "speech": "Thanks, let's try that.",
+      "messages": [
+        {
+          "type": 0,
+          "speech": "Thanks, let's try that."
+        }
+      ]
+    },
+    "score": 0.89
+  },
+  "status": {
+    "code": 200,
+    "errorType": "success"
+  },
+  "sessionId": "28a8d075-b521-4e31-9786-a5ccde6b27c6"
+}
