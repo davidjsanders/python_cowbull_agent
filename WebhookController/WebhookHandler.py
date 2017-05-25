@@ -26,16 +26,7 @@ class WebhookHandler(MethodView):
         logging.debug("Processing webhook")
         logging.debug("Game server is {}".format(cowbull_url))
 
-        request_mimetype = request.headers.get('Content-Type', None)
-        logging.debug("Content type of request is: {}".format(request_mimetype))
-
-        if request_mimetype is None\
-        or request_mimetype.lower() != "application/json":
-            self.webhook_response = {
-                "status": 400,
-                "message": "content-type must be explicitly specified "
-                           "as application/json"
-            }
+        if not self._check_mimetype(request=request):
             return self._build_error_response(response=self.webhook_response)
 
         json_string = request.get_json(silent=True, force=True)
@@ -66,6 +57,21 @@ class WebhookHandler(MethodView):
             mimetype="application/json",
             response=json.dumps(self.webhook_response)
         )
+
+    def _check_mimetype(self, request):
+        request_mimetype = request.headers.get('Content-Type', None)
+        logging.debug("Content type of request is: {}".format(request_mimetype))
+
+        if request_mimetype is None\
+        or request_mimetype.lower() != "application/json":
+            self.webhook_response = {
+                "status": 400,
+                "message": "content-type must be explicitly specified "
+                           "as application/json"
+            }
+            return False
+
+        return True
 
     def _build_error_response(
             self,
