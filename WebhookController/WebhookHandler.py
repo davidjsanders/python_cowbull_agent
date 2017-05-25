@@ -27,10 +27,10 @@ class WebhookHandler(MethodView):
         logging.debug("Processing webhook")
         logging.debug("Game server is {}".format(cowbull_url))
 
-        if not self._check_mimetype(request=request):
-            return self._build_error_response(
-                response="content-type must be explicitly specified as application/json"
-            )
+#        if not self._check_mimetype(request=request):
+#            return self._build_error_response(
+#                response="content-type must be explicitly specified as application/json"
+#            )
 
         json_string = request.get_json(silent=True, force=True)
 
