@@ -22,14 +22,13 @@ class WebhookHelpers(object):
         try:
             r = requests.get(url=url)
         except exceptions.ConnectionError as re:
-            error_message = "Game is unavailable: {}.".format(str(re))
+            raise IOError("Game reported an error: {}".format(str(re)))
+        except Exception as e:
+            raise IOError("Game reported an exception: {}".format(repr(e)))
 
         if r is not None:
             if r.status_code != 200:
-                table = [{
-                    "mode": "Game is unavailable. Status code {}".format(r.status_code),
-                    "digits": "n/a", "guesses": "n/a"
-                }]
+                raise IOError("Game reported an error: HTML Status Code = {}".format(r.status_code))
             else:
                 table = r.json()
                 self.game_modes = str([str(mode["mode"]) for mode in table])\
