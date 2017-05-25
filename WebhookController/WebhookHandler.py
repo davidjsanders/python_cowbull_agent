@@ -54,6 +54,11 @@ class WebhookHandler(MethodView):
         try:
             if action.lower() == "newgame":
                 self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
+        except IOError as ioe:
+            return self._build_error_response(
+                status_code=503,
+                response="Unfortunately, the game service is unavailable: {}".format(str(ioe))
+            )
         except Exception as e:
             return self._build_error_response(
                 status_code=500,
