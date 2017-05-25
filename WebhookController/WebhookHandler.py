@@ -50,6 +50,9 @@ class WebhookHandler(MethodView):
         parameters = webhook_result.get('parameters', None)
         logging.debug("Parameters are: {}".format(parameters))
 
+        if action.lower() == "newgame":
+            self.perform_newgame(parameters=parameters)
+
         self.webhook_response["parameters"] = parameters
         self.webhook_response["action"] = action
 
@@ -61,6 +64,14 @@ class WebhookHandler(MethodView):
             mimetype="application/json",
             response=json.dumps(self.webhook_response)
         )
+
+    def perform_newgame(self, parameters=None):
+        _parameters = parameters or {"mode": "normal"}
+        _mode = _parameters.get('mode', None)
+        if _mode is None:
+            _mode = "normal"
+
+        logging.debug("Starting a new game in {} mode". format(_mode))
 
     def _check_mimetype(self, request):
         request_mimetype = request.headers.get('Content-Type', None)
