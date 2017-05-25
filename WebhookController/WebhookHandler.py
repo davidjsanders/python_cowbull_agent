@@ -102,11 +102,12 @@ class WebhookHandler(MethodView):
             raise ValueError("For some reason, no contexts are specified!")
 
         key = [n["parameters"]["key"] for n in _contexts if n["name"] == "key"][0]
-        digits_required = [n["parameters"]["digits"] for n in _contexts if n["name"] == "digits"][0]
+        digits_required = int([n["parameters"]["digits"] for n in _contexts if n["name"] == "digits"][0])
         guesses = [n["parameters"]["guesses_remaining"] for n in _contexts if n["name"] == "guesses"][0]
         digits_guessed = [int(n) for n in _parameters.get("digitlist", None)]
 
         guess_analysis = helper.mkae_guess(key=key, digits_required=digits_required, digits=digits_guessed)
+
         game = guess_analysis.get('game', None)
         outcome = guess_analysis.get('outcome', None)
         message = outcome.get('message', None)
