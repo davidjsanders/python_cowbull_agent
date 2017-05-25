@@ -51,6 +51,7 @@ class WebhookHelpers(object):
                 if r.status_code == 404:
                     err_text = "The game engine reported a 404 (not found) error. The service may " \
                                "be temporarily unavailable"
+                logging.debug("requests: Returned {} --> {}".format(r.status_code, r.text))
                 raise IOError(err_text)
             else:
                 table = r.json()
