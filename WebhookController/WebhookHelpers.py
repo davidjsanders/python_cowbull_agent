@@ -54,6 +54,7 @@ class WebhookHelpers(object):
                 raise IOError(err_text)
             else:
                 table = r.json()
+                logging.debug('JSON returned is: {}'.format(table))
                 return table
         else:
             err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)
