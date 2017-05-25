@@ -56,6 +56,7 @@ class WebhookHandler(MethodView):
                 self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
         except Exception as e:
             return self._build_error_response(
+                status_code=500,
                 response="An exception occurred in the API webhook: {}".format(repr(e))
             )
 
