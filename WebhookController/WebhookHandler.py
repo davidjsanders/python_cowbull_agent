@@ -90,6 +90,8 @@ class WebhookHandler(MethodView):
             raise ValueError("The mode {} is not supported".format(_mode))
 
         logging.debug("Starting a new game in {} mode". format(_mode))
+        game_object = helper.fetch_new_game()
+        self.webhook_response["contextOut"].append({"game": game_object})
 
     def _check_mimetype(self, request):
         request_mimetype = request.headers.get('Content-Type', None)
