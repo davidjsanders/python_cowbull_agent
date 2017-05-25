@@ -102,7 +102,7 @@ class WebhookHandler(MethodView):
             raise ValueError("For some reason, no contexts are specified!")
 
         key = [n["name"] for n in _contexts if n["name"] == "key"][0]
-        digits_required = [n["name"] for _contexts in a if n["name"] == "digits"][0]
+        digits_required = [n["name"] for n in _contexts if n["name"] == "digits"][0]
         guesses = [n["name"] for n in _contexts if n["name"] == "guesses"][0]
 
         logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
