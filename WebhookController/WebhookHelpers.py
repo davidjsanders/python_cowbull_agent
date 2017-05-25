@@ -16,7 +16,7 @@ class WebhookHelpers(object):
         if self.selected_mode is None:
             raise ValueError('The game mode is null (None), so a game cannot be started.')
 
-        url = self.cowbull_url.format('game')
+        url = "{}?mode={}".format(self.cowbull_url.format('game'), self.selected_mode)
         r = None
 
         try:
