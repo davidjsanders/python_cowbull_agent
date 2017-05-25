@@ -120,7 +120,8 @@ class WebhookHandler(MethodView):
 
         response_text = None
         if status.lower() == "won":
-            _digits_guessed_text = str(digits_guessed).replace('[', None).replace(']', None)
+            _digits_guessed_text = str(digits_guessed)
+            _digits_guessed_text = _digits_guessed_text.replace('[', '').replace(']', '')
             response_text = "Congratulations! You won the game with {}".format(_digits_guessed_text)
         elif status.lower() == "lost":
             response_text = "Sorry! You lost the game. The correct answer was {}"
