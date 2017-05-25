@@ -39,13 +39,20 @@ class WebhookHandler(MethodView):
             }
             return self._build_error_response(response=webhook_response)
 
-        webhook_response["result"] = json_string.get('result', None)
-        if webhook_response["result"] is not None:
-            webhook_response["parameters"] = webhook_response["result"].get('parameters', None)
-            webhook_response["action"] = webhook_response["result"].get('action', None)
+        webhook_result = json_string.get('result', None)
+        if webhook_result is not None:
+            webhook_response["parameters"] = webhook_result.get('parameters', None)
+            webhook_response["action"] = webhook_result.get('action', None)
+        else:
+            webhook_response = {
+                "status": 400,
+                "message": "No result data. The request from api.ai was badly formed!"
+            }
+            return self._build_error_response(response=webhook_response)
+
 
         webhook_response["speech"] = webhook_response["displayText"] = "Hello!"
-        webhook_response["payload"] = json_string
+        #webhook_response["payload"] = json_string
 
         return Response(
             status=200,
