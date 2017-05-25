@@ -109,36 +109,43 @@ class WebhookHandler(MethodView):
         guess_analysis = helper.mkae_guess(key=key, digits_required=digits_required, digits=digits_guessed)
 
         game = guess_analysis.get('game', None)
+        status = game.get('status', None)
+
         outcome = guess_analysis.get('outcome', None)
         message = outcome.get('message', None)
         analysis = outcome.get('analysis', None)
         cows = outcome.get('cows', 0)
         bulls = outcome.get('bulls', 0)
-#        status = outcome.get('status', None)
 
-        message_text = ""
-        for a in analysis:
-            if a["match"]:
-                message_text += "{} is a bull".format(a["digit"])
-            elif a["in_word"]:
-                message_text += "{} is a cow".format(a["digit"])
-            else:
-                message_text += "{} is a miss".format(a["digit"])
+        response_text = None
+        if status.lower() == "won":
+            response_text = "Congratulations! You won the game with {}".format(digits_guessed)
+        elif status.lower() == "lost":
+            response_text = "Sorry! You lost the game. The correct answer was {}"
+        else:
+            message_text = ""
+            for a in analysis:
+                if a["match"]:
+                    message_text += "{} is a bull".format(a["digit"])
+                elif a["in_word"]:
+                    message_text += "{} is a cow".format(a["digit"])
+                else:
+                    message_text += "{} is a miss".format(a["digit"])
 
-            if a["multiple"]:
-                message_text += "and occurs more than once. "
-            else:
-                message_text += ". "
+                if a["multiple"]:
+                    message_text += "and occurs more than once. "
+                else:
+                    message_text += ". "
 
-        status = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
+            response_text = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
 
-        logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
-        logging.debug('Digits guessed are: {}'.format(digits_guessed))
+#        logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
+#        logging.debug('Digits guessed are: {}'.format(digits_guessed))
 
         return {
             "contextOut": contexts,
-            "speech": status,
-            "displayText": status
+            "speech": response_text,
+            "displayText": response_text
         }
 
     def perform_newgame(self, cowbull_url=None, parameters=None):
