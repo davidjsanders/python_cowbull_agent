@@ -40,6 +40,7 @@ class WebhookHelpers(object):
         try:
             logging.debug("make_guess: Posting to {}".format(url))
             r = requests.post(url=url, headers=headers, data=json.dumps(payload))
+            logging.debug("Request status is {} --> {}".format(r.status_code, r.text))
         except exceptions.ConnectionError as re:
             raise IOError("Game reported an error: {}".format(str(re)))
         except Exception as e:
