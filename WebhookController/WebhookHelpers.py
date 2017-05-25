@@ -11,7 +11,9 @@ class WebhookHelpers(object):
             raise TypeError("The Cowbull game URL is incorrectly configured!")
         self.cowbull_url = cowbull_url
 
-    def fetch_game_modes(self):
+    def validate_modes(self, mode=None):
+        _mode = mode or "normal"
+
         url = self.cowbull_url.format("modes")
         r = None
 
@@ -30,7 +32,9 @@ class WebhookHelpers(object):
                 table = r.json()
                 self.game_modes = str([str(mode["mode"]) for mode in table])\
                     .replace('[', '').replace(']', '').replace("'", "")
-                return self.game_modes
-
+                if _mode in self.game_modes:
+                    return True
+                else:
+                    return False
         else:
             return []

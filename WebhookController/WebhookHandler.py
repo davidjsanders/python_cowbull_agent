@@ -74,46 +74,16 @@ class WebhookHandler(MethodView):
     def perform_newgame(self, cowbull_url=None, parameters=None):
         helper = WebhookHelpers(cowbull_url=cowbull_url)
 
-        logging.debug("Fetching supported game modes")
-        game_modes = helper.fetch_game_modes()
-        logging.debug("Supported modes are: {}".format(game_modes))
-
         _parameters = parameters or {"mode": "normal"}
         _mode = _parameters.get('mode', None)
         if _mode is None:
             _mode = "normal"
 
-        if _mode not in game_modes:
+        logging.debug("Validating game mode")
+        if not helper.validate_modes(mode=_mode):
             raise ValueError("The mode {} is not supported".format(_mode))
 
         logging.debug("Starting a new game in {} mode". format(_mode))
-
-    def _fetch_game_modes(self, cowbull_url=None):
-        if cowbull_url is None or not isinstance(cowbull_url, str):
-            raise TypeError("The Cowbull game URL is incorrectly configured!")
-
-        url = cowbull_url.format("modes")
-        r = None
-
-        try:
-            r = requests.get(url=url)
-        except exceptions.ConnectionError as re:
-            error_message = "Game is unavailable: {}.".format(str(re))
-
-        if r is not None:
-            if r.status_code != 200:
-                table = [{
-                    "mode": "Game is unavailable. Status code {}".format(r.status_code),
-                    "digits": "n/a", "guesses": "n/a"
-                }]
-            else:
-                table = r.json()
-                game_modes = str([str(mode["mode"]) for mode in table])\
-                    .replace('[', '').replace(']', '').replace("'", "")
-                return game_modes
-
-        else:
-            return []
 
     def _check_mimetype(self, request):
         request_mimetype = request.headers.get('Content-Type', None)
