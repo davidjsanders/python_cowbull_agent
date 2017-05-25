@@ -10,17 +10,6 @@ from WebhookController.WebhookHelpers import WebhookHelpers
 
 
 class WebhookHandler(MethodView):
-    webhook_response = {
-        "speech": None,
-        "displayText": None,
-        "data": {},
-        "source": "cowbull-agent",
-        "followupEvent": {},
-        "contextOut": [],
-        "result": None,             # Shouldn't be here - for testing only
-        "parameters": None          # Shouldn't be here - for testing only
-    }
-
     def post(self):
         webhook_response = {
             "speech": None,
@@ -102,7 +91,7 @@ class WebhookHandler(MethodView):
 
         logging.debug("Starting a new game in {} mode". format(_mode))
         game_object = helper.fetch_new_game()
-        return {"game": game_object}
+        return [{"game": game_object}]
 
     def _check_mimetype(self, request):
         request_mimetype = request.headers.get('Content-Type', None)
