@@ -110,6 +110,7 @@ class WebhookHandler(MethodView):
 
         game = guess_analysis.get('game', None)
         status = game.get('status', None)
+        guesses_remaining = int(game.get('guesses_remaining', 0))
 
         outcome = guess_analysis.get('outcome', None)
         message = outcome.get('message', None)
@@ -133,10 +134,11 @@ class WebhookHandler(MethodView):
                     message_text += "{} is a miss".format(a["digit"])
 
                 if a["multiple"]:
-                    message_text += "and occurs more than once. "
+                    message_text += " and occurs more than once. "
                 else:
                     message_text += ". "
 
+            message_text += "You have {} goes remaining!".format(guesses_remaining)
             response_text = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
 
 #        logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
