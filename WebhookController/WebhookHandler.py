@@ -106,6 +106,8 @@ class WebhookHandler(MethodView):
         guesses = [n["parameters"]["guesses"] for n in _contexts if n["name"] == "guesses"][0]
         digits_guessed = [int(n) for n in _parameters.get("digitlist", None)]
 
+        helper.mkae_guess(key=key, digits_required=digits_required, digits=digits_guessed)
+
         logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
         logging.debug('Digits guessed are: {}'.format(digits_guessed))
 
