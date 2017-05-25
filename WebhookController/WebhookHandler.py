@@ -80,7 +80,7 @@ class WebhookHandler(MethodView):
             _mode = "normal"
 
         logging.debug("Validating game mode")
-        if not helper.validate_modes(mode=_mode):
+        if not helper.validate_mode(mode=_mode):
             raise ValueError("The mode {} is not supported".format(_mode))
 
         logging.debug("Starting a new game in {} mode". format(_mode))

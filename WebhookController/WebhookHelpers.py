@@ -11,7 +11,9 @@ class WebhookHelpers(object):
             raise TypeError("The Cowbull game URL is incorrectly configured!")
         self.cowbull_url = cowbull_url
 
-    def validate_modes(self, mode=None):
+    def validate_mode(self, mode=None):
+        #TODO Add caching for the game modes to avoid unwanted round trips
+
         _mode = mode or "normal"
 
         url = self.cowbull_url.format("modes")
