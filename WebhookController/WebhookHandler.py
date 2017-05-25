@@ -73,6 +73,7 @@ class WebhookHandler(MethodView):
     def perform_newgame(self, cowbull_url=None, parameters=None):
         logging.debug("Fetching supported game modes")
         game_modes = self._fetch_game_modes(cowbull_url)
+        logging.debug("Supported modes are: {}".format(game_modes))
 
         _parameters = parameters or {"mode": "normal"}
         _mode = _parameters.get('mode', None)
