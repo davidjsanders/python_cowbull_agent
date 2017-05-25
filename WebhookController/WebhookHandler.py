@@ -6,6 +6,7 @@ from flask import render_template, request, Response
 from flask.views import MethodView
 from requests import exceptions
 from werkzeug.exceptions import BadRequest
+from WebhookController.WebhookHelpers import WebhookHelpers
 
 
 class WebhookHandler(MethodView):
@@ -71,8 +72,10 @@ class WebhookHandler(MethodView):
         )
 
     def perform_newgame(self, cowbull_url=None, parameters=None):
+        helper = WebhookHelpers(cowbull_url=cowbull_url)
+
         logging.debug("Fetching supported game modes")
-        game_modes = self._fetch_game_modes(cowbull_url)
+        game_modes = helper.fetch_game_modes()
         logging.debug("Supported modes are: {}".format(game_modes))
 
         _parameters = parameters or {"mode": "normal"}
