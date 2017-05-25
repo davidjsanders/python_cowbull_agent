@@ -10,6 +10,11 @@ from werkzeug.exceptions import BadRequest
 
 class WebhookHandler(MethodView):
     def post(self):
+        cowbull_url = app.config.get("COWBULL_URL", None)
+
+        logging.debug("Processing webhook")
+        logging.debug("Game server is {}".format(cowbull_url))
+
         webhook_response = {
             "speech": None,
             "displayText": None,
