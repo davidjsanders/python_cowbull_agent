@@ -91,7 +91,15 @@ class WebhookHandler(MethodView):
 
         logging.debug("Starting a new game in {} mode". format(_mode))
         game_object = helper.fetch_new_game()
-        return [{"game": game_object}]
+
+        return_object = [
+            {"name": "digits", "lifespan": 15, "parameters": {"digits": game_object["digits"]}},
+            {"name": "guesses", "lifespan": 15, "parameters": {"guesses": game_object["guesses"]}},
+            {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}},
+            {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
+        ]
+
+        return return_object
 
     def _check_mimetype(self, request):
         request_mimetype = request.headers.get('Content-Type', None)
