@@ -89,7 +89,28 @@ class WebhookHandler(MethodView):
         if cowbull_url is None or not isinstance(cowbull_url, str):
             raise TypeError("The Cowbull game URL is incorrectly configured!")
 
-        return ["normal", "easy", "hard"]
+        url = cowbull_url.format("modes")
+        r = None
+
+        try:
+            r = requests.get(url=url)
+        except exceptions.ConnectionError as re:
+            error_message = "Game is unavailable: {}.".format(str(re))
+
+        if r is not None:
+            if r.status_code != 200:
+                table = [{
+                    "mode": "Game is unavailable. Status code {}".format(r.status_code),
+                    "digits": "n/a", "guesses": "n/a"
+                }]
+            else:
+                table = r.json()
+                game_modes = str([mode["mode"] for mode in table])\
+                    .replace('[', '').replace(']', '').replace("'", "")
+                return game_modes
+
+        else:
+            return []
 
     def _check_mimetype(self, request):
         request_mimetype = request.headers.get('Content-Type', None)
