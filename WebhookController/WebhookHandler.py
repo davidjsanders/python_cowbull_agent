@@ -22,6 +22,17 @@ class WebhookHandler(MethodView):
     }
 
     def post(self):
+        webhook_response = {
+            "speech": None,
+            "displayText": None,
+            "data": {},
+            "source": "cowbull-agent",
+            "followupEvent": {},
+            "contextOut": [],
+            "result": None,  # Shouldn't be here - for testing only
+            "parameters": None  # Shouldn't be here - for testing only
+        }
+
         cowbull_url = app.config.get("COWBULL_URL", None)
 
         logging.debug("Processing webhook")
@@ -53,7 +64,7 @@ class WebhookHandler(MethodView):
 
         try:
             if action.lower() == "newgame":
-                self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
+                webhook_response["contextOut"] = self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
         except IOError as ioe:
             return self._build_error_response(
                 status_code=503,
@@ -65,16 +76,16 @@ class WebhookHandler(MethodView):
                 response="An exception occurred in the API webhook: {}".format(repr(e))
             )
 
-        self.webhook_response["parameters"] = parameters
-        self.webhook_response["action"] = action
+        webhook_response["parameters"] = parameters
+        webhook_response["action"] = action
 
-        self.webhook_response["speech"] = self.webhook_response["displayText"] = "Hello!"
+        webhook_response["speech"] = webhook_response["displayText"] = "Hello!"
         #webhook_response["payload"] = json_string
 
         return Response(
             status=200,
             mimetype="application/json",
-            response=json.dumps(self.webhook_response)
+            response=json.dumps(webhook_response)
         )
 
     def perform_newgame(self, cowbull_url=None, parameters=None):
@@ -91,7 +102,7 @@ class WebhookHandler(MethodView):
 
         logging.debug("Starting a new game in {} mode". format(_mode))
         game_object = helper.fetch_new_game()
-        self.webhook_response["contextOut"].append({"game": game_object})
+        return {"game": game_object}
 
     def _check_mimetype(self, request):
         request_mimetype = request.headers.get('Content-Type', None)
