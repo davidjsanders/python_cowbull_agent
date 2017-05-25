@@ -52,9 +52,17 @@ class WebhookHandler(MethodView):
         parameters = webhook_result.get('parameters', None)
         logging.debug("Parameters are: {}".format(parameters))
 
+        contexts = webhook_result.get('contexts', None)
+        logging.debug("Contexts are: {}".format(parameters))
+
         try:
             if action.lower() == "newgame":
                 return_results = self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
+                webhook_response["contextOut"] = return_results["contextOut"]
+                webhook_response["speech"] = return_results["speech"]
+                webhook_response["displayText"] = return_results["displayText"]
+            elif action.lower() == "makeguess":
+                return_results = self.perform_makeguess(cowbull_url=cowbull_url, parameters=parameters)
                 webhook_response["contextOut"] = return_results["contextOut"]
                 webhook_response["speech"] = return_results["speech"]
                 webhook_response["displayText"] = return_results["displayText"]
@@ -77,6 +85,19 @@ class WebhookHandler(MethodView):
             mimetype="application/json",
             response=json.dumps(webhook_response)
         )
+
+    def perform_makeguess(self, cowbull_url=None, parameters=None):
+        helper = WebhookHelpers(cowbull_url=cowbull_url)
+
+        _parameters = parameters or []
+        if _parameters == []:
+            raise ValueError("Parameters are none!")
+
+        return {
+            "contextOut": [],
+            "speech": "This is a test",
+            "displayText": "This is a test"
+        }
 
     def perform_newgame(self, cowbull_url=None, parameters=None):
         helper = WebhookHelpers(cowbull_url=cowbull_url)
