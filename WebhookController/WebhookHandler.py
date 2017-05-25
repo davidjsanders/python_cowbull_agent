@@ -27,11 +27,6 @@ class WebhookHandler(MethodView):
         logging.debug("Game server is {}".format(cowbull_url))
 
         if not self._check_mimetype(request=request):
-            self.webhook_response = {
-                "status": 400,
-                "message": "content-type must be explicitly specified "
-                           "as application/json"
-            }
             return self._build_error_response(
                 response="content-type must be explicitly specified as application/json"
             )
@@ -39,11 +34,9 @@ class WebhookHandler(MethodView):
         json_string = request.get_json(silent=True, force=True)
 
         if json_string is None:
-            self.webhook_response = {
-                "status": 400,
-                "message": "No JSON data was provided"
-            }
-            return self._build_error_response(response=self.webhook_response)
+            return self._build_error_response(
+                response="No JSON was provided in the request!"
+            )
 
         webhook_result = json_string.get('result', None)
         if webhook_result is not None:
