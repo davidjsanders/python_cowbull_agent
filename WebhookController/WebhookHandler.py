@@ -110,10 +110,20 @@ class WebhookHandler(MethodView):
         game = guess_analysis.get('game', None)
         outcome = guess_analysis.get('outcome', None)
         message = outcome.get('message', None)
+        analysis = outcome.get('analysis', None)
         cows = outcome.get('cows', 0)
         bulls = outcome.get('bulls', 0)
 #        status = outcome.get('status', None)
-        status = "You have {} cows and {} bulls.".format(cows, bulls)
+
+        message_text = ""
+        for a in analysis:
+            if a["match"]:
+                message_text += "{} is a bull "
+            if a["in_word"]:
+                message_text += "{} is a cow "
+            if a["multiple"]:
+                message_text += "and occurs more than once. "
+        status = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
 
         logging.debug('Key: {}. Digits required: {}. Guesses: {}'.format(key, digits_required, guesses))
         logging.debug('Digits guessed are: {}'.format(digits_guessed))
