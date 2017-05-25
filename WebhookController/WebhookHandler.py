@@ -53,7 +53,7 @@ class WebhookHandler(MethodView):
         logging.debug("Parameters are: {}".format(parameters))
 
         contexts = webhook_result.get('contexts', None)
-        logging.debug("Contexts are: {}".format(parameters))
+        logging.debug("Contexts are: {}".format(contexts))
 
         try:
             if action.lower() == "newgame":
