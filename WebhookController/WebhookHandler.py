@@ -50,8 +50,13 @@ class WebhookHandler(MethodView):
         parameters = webhook_result.get('parameters', None)
         logging.debug("Parameters are: {}".format(parameters))
 
-        if action.lower() == "newgame":
-            self.perform_newgame(parameters=parameters)
+        try:
+            if action.lower() == "newgame":
+                self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
+        except Exception as e:
+            return self._build_error_response(
+                response="An exception occurred in the API webhook: {}".format(repr(e))
+            )
 
         self.webhook_response["parameters"] = parameters
         self.webhook_response["action"] = action
@@ -65,7 +70,10 @@ class WebhookHandler(MethodView):
             response=json.dumps(self.webhook_response)
         )
 
-    def perform_newgame(self, parameters=None):
+    def perform_newgame(self, cowbull_url=None, parameters=None):
+        if cowbull_url is None or not isinstance(cowbull_url, str):
+            raise TypeError("The Cowbull game URL is incorrectly configured!")
+
         _parameters = parameters or {"mode": "normal"}
         _mode = _parameters.get('mode', None)
         if _mode is None:
