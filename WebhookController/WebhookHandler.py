@@ -119,8 +119,11 @@ class WebhookHandler(MethodView):
         for a in analysis:
             if a["match"]:
                 message_text += "{} is a bull".format(a["digit"])
-            if a["in_word"]:
+            elif a["in_word"]:
                 message_text += "{} is a cow".format(a["digit"])
+            else:
+                message_text += "{} is a miss".format(a["digit"])
+
             if a["multiple"]:
                 message_text += "and occurs more than once. "
             else:
