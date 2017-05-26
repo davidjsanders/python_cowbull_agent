@@ -35,9 +35,88 @@ class WebhookHelpers(object):
         if action.lower() == "newgame":
             results = self.new_game()
         elif action.lower() == "makeguess":
-            pass
+            results = self.make_guess()
 
         return results
+
+    def make_guess(self):
+        output = {}
+
+        contexts = self.action_dict["result"]["contexts"]
+        digit_parameters = self.action_dict["result"]["parameters"]["digitlist"]
+
+        key = [n["parameters"]["key"] for n in contexts if n["name"] == "key"][0]
+        digits_required = int([n["parameters"]["digits"] for n in contexts if n["name"] == "digits"][0])
+        digit_list = [int(n) for n in digit_parameters]
+
+        url = self.game_url.format('game')
+        headers = {"Content-Type": "application/json"}
+        payload = {
+            "key": key,
+            "digits": digit_list
+        }
+        r = None
+
+        try:
+            logging.debug("make_guess: Posting to {}".format(url))
+            r = requests.post(url=url, headers=headers, data=json.dumps(payload))
+        except exceptions.ConnectionError as re:
+            raise IOError("Game reported an error: {}".format(str(re)))
+        except Exception as e:
+            raise IOError("Game reported an exception: {}".format(repr(e)))
+
+        if r is not None:
+            if r.status_code != 200:
+                err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)
+                if r.status_code == 404:
+                    err_text = "The game engine reported a 404 (not found) error. The service may " \
+                               "be temporarily unavailable"
+                logging.debug("requests: Returned {} --> {}".format(r.status_code, r.text))
+                raise IOError(err_text)
+            else:
+                guess_analysis = r.json()
+                game = guess_analysis.get('game', None)
+                status = game.get('status', None)
+                guesses_remaining = int(game.get('guesses_remaining', 0))
+
+                outcome = guess_analysis.get('outcome', None)
+                message = outcome.get('message', None)
+                analysis = outcome.get('analysis', None)
+                cows = outcome.get('cows', 0)
+                bulls = outcome.get('bulls', 0)
+
+                response_text = None
+                if status.lower() in ["won", "lost"]:
+                    response_text = message
+                else:
+                    message_text = ""
+                    for a in analysis:
+                        if a["match"]:
+                            message_text += "{} is a bull".format(a["digit"])
+                        elif a["in_word"]:
+                            message_text += "{} is a cow".format(a["digit"])
+                        else:
+                            message_text += "{} is a miss".format(a["digit"])
+
+                        if a["multiple"]:
+                            message_text += " and occurs more than once. "
+                        else:
+                            message_text += ". "
+
+                    message_text += "You have {} goes remaining!".format(guesses_remaining)
+                    response_text = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
+
+                output = {
+                    "contextOut": contexts,
+                    "speech": response_text,
+                    "displayText": response_text
+                }
+
+        else:
+            err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)
+            raise IOError(err_text)
+
+        return output
 
     def new_game(self):
         output = {}
@@ -81,7 +160,7 @@ class WebhookHelpers(object):
 
         return output
 
-    def make_guess(self, key=None, digits_required=0, digits=[]):
+    def old_make_guess(self, key=None, digits_required=0, digits=[]):
         if key is None:
             raise ValueError("The key cannot be null (None), so a guess cannot be made.")
 

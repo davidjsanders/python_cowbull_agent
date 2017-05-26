@@ -46,60 +46,11 @@ class WebhookHandler(MethodView):
                 response="{}".format(str(e))
             )
 
-#        if action.lower() == "newgame":
-#            helper.validate_mode(mode=m)
-#            self._action_newgame(url=cowbull_url, parameters=parameters, output=webhook_response)
-#        elif action.lower() == "makeguess":
-#            return_results = self.perform_makeguess(
-#                cowbull_url=cowbull_url,
-#                parameters=parameters,
-#                contexts=contexts
-#            )
-#            webhook_response["contextOut"] = return_results["contextOut"]
-#            webhook_response["speech"] = return_results["speech"]
-#            webhook_response["displayText"] = return_results["displayText"]
-
         return Response(
             status=200,
             response=json.dumps(webhook_response),
             mimetype="application/json"
         )
-
-    @staticmethod
-    def _action_newgame(url=None, parameters=None, output=None):
-        if not output or not isinstance(output, dict):
-            raise ValueError("Response data to _action_newgame was None or badly formed!")
-        if not url:
-            raise ValueError("Game URL to _action_newgame was None or badly formed!")
-        if not parameters or not isinstance(parameters, dict):
-            raise ValueError("Parameters to _action_newgame were None or badly formed!")
-
-        helper = WebhookHelpers(game_url=url)
-        _mode = parameters.get('mode', 'normal')
-
-        if not helper.validate_mode(mode=_mode):
-            raise ValueError("The mode {} is not supported".format(_mode))
-        logging.debug("WebhookHandler: _action_newgame: {} mode validated". format(_mode))
-
-        game_object = helper.fetch_new_game()
-        logging.debug("WebhookHandler: _action_newgame: Game created in {} mode.". format(_mode))
-
-        text_return = "Okay, I've started a new game. You have {} guesses to guess {} numbers."\
-            .format(game_object["guesses"],game_object["digits"])
-
-        output["contextOut"] = [
-            {"name": "digits", "lifespan": 15, "parameters": {"digits": game_object["digits"]}},
-            {"name": "guesses", "lifespan": 15, "parameters": {"guesses_remaining": game_object["guesses"]}},
-            {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}},
-            {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
-        ]
-        logging.debug("WebhookHandler: _action_newgame: Added contextOut to response.")
-
-        output["speech"] = text_return
-        logging.debug("WebhookHandler: _action_newgame: Added speech to response.")
-
-        output["displayText"] = text_return
-        logging.debug("WebhookHandler: _action_newgame: Added display text to response.")
 
     @staticmethod
     def _post_get_json():
