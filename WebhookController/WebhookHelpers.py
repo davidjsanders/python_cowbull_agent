@@ -21,6 +21,8 @@ class WebhookHelpers(object):
 
     def perform_action(self, input_json=None):
         error_message = "{} is not defined for some reason - something has gone wrong."
+        results = {}
+
         if not input_json:
             raise ValueError(error_message.format("The JSON data"))
         self.action_dict = input_json
@@ -31,12 +33,16 @@ class WebhookHelpers(object):
 
         logging.debug("WebhookHelpers: Processing action {}".format(action))
         if action.lower() == "newgame":
-            self.new_game()
+            results = self.new_game()
         elif action.lower() == "makeguess":
             pass
 
+        return results
+
     def new_game(self):
         parameters = self.action_dict["result"]["parameters"]
+        mode = parameters["mode"]
+        self.validate_mode(mode=mode)
         logging.debug("WebhookHelpers-newgame: parameters --> {}".format(parameters))
 
         pass
