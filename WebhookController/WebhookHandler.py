@@ -71,24 +71,16 @@ class WebhookHandler(MethodView):
         )
 
     @staticmethod
-    def _post_get_result(request_data=None):
-        if request_data is None:
-            raise ValueError("The request data is invalid.")
-
-        result = request_data.get("result", None)
-
-        if not result:
-            raise ValueError("The 'result' section of the request data is invalid.")
-        logging.debug("WebhookHandler: result data --> {}".format(result))
-
-    @staticmethod
     def _post_get_json():
         json_string = request.get_json(silent=True, force=True)
 
         if json_string is None:
             raise TypeError("No JSON was provided in the request!")
 
-        logging.debug("JSON provided was: {}".format(json_string))
+        logging.debug("JSON provided was {}B long".format(
+                str(json_string).encode('utf-8')
+            )
+        )
 
         _result = {
             "lang": json_string.get('lang', None),
