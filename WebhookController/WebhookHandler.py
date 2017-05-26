@@ -28,6 +28,21 @@ class WebhookHandler(MethodView):
             request_data = self._post_get_json()
         except TypeError as ve:
             return self._build_error_response(response=str(ve))
+        except Exception as e:
+            return self._build_error_response(response=repr(e))
+
+        try:
+            result = request_data.get("result", None)
+            if not result:
+                raise ValueError("The 'result' section of the request data is invalid.")
+
+            parameters = result.get("parameters")
+            if not parameters:
+                raise ValueError("The 'parameters' of the 'result' section of the request data is invalid.")
+        except ValueError as ve:
+            return self._build_error_response(response=str(ve))
+        except Exception as e:
+            return self._build_error_response(response=repr(e))
 
         return Response(
             status=200,
