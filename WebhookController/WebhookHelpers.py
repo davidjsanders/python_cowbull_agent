@@ -18,10 +18,8 @@ class WebhookHelpers(object):
             raise TypeError("The Cowbull game URL is incorrectly configured!")
         self.cowbull_url = cowbull_url
 
-    def do_action(self, action=None, input_json=None):
+    def do_action(self, input_json=None):
         error_message = "{} is not defined for some reason - something has gone wrong."
-        if not action:
-            raise ValueError(error_message.format("Action"))
         if not input_json:
             raise ValueError(error_message.format("The JSON data"))
 
