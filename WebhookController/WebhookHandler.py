@@ -42,6 +42,7 @@ class WebhookHandler(MethodView):
             return self._build_error_response(
                 response="{}: {}".format(e.__class__.__name__, str(e))
             )
+        webhook_response["displayText"] = return_results
 
 #        if action.lower() == "newgame":
 #            helper.validate_mode(mode=m)
