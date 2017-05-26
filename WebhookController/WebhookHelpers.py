@@ -44,6 +44,7 @@ class WebhookHelpers(object):
         self.validate_mode(mode=mode)
 
         try:
+            url = "{}?mode={}".format(self.game_url.format('game'), self.selected_mode)
             logging.debug("fetch_new_game: Connecting to {}".format(url))
             r = requests.get(url=url)
         except exceptions.ConnectionError as re:
