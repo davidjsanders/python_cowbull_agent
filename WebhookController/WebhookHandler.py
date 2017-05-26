@@ -11,6 +11,55 @@ from WebhookController.WebhookHelpers import WebhookHelpers
 
 class WebhookHandler(MethodView):
     def post(self):
+        logging.debug("WebhookHandler: Processing POST request.")
+
+        webhook_response = {
+            "speech": None,
+            "displayText": None,
+            "data": {},
+            "source": "cowbull-agent",
+            "followupEvent": {},
+            "contextOut": [],
+            "result": None,  # Shouldn't be here - for testing only
+            "parameters": None  # Shouldn't be here - for testing only
+        }
+
+        try:
+            request_data = self._post_get_json()
+        except TypeError as ve:
+            return self._build_error_response(response=str(ve))
+
+    @staticmethod
+    def _post_get_json():
+        json_string = request.get_json(silent=True, force=True)
+
+        if json_string is None:
+            raise TypeError("No JSON was provided in the request!")
+
+        logging.debug("JSON provided was: {}".format(json_string))
+
+        _result = {
+            "lang": json_string.get('lang', None),
+            "status": json_string.get('status', None),
+            "timestamp": json_string.get('timestamp', None),
+            "sessionId": json_string.get('sessionId', None),
+            "result": json_string.get('result', None),
+            "id": json_string.get('id', None),
+            "originalRequest": json_string.get('originalRequest', None)
+        }
+
+        if _result["result"] is None\
+                or _result["status"] is None\
+                or _result["timestamp"] is None\
+                or _result["sessionId"] is None\
+                or _result["result"] is None\
+                or _result["id"] is None\
+                or _result["originalRequest"] is None:
+            raise ValueError("The JSON provided in the request is badly formed!")
+
+        return _result
+
+    def oldpost(self):
         webhook_response = {
             "speech": None,
             "displayText": None,
