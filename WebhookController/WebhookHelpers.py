@@ -27,12 +27,12 @@ class WebhookHelpers(object):
 
         result = self.action_dict["result"]
         bytesize = len(str(result).encode('utf-8'))
-        logging.debug("WebhookHandler: result data --> {}B".format(bytesize))
+        logging.debug("WebhookHelpers: result data --> {}B".format(bytesize))
 
         action = self.action_dict["result"]["action"]
         if action.lower() not in WebhookHelpers.supported_actions:
             raise ValueError("Unknown action: {}".format(action))
-        logging.debug("WebhookHandler: action --> {}".format(action))
+        logging.debug("WebhookHelpers: action --> {}".format(action))
 
         if action.lower() == "newgame":
             self.new_game()
@@ -41,7 +41,7 @@ class WebhookHelpers(object):
 
     def new_game(self):
         parameters = self.action_dict["result"]["parameters"]
-        logging.debug("WebhookHandler: parameters --> {}".format(parameters))
+        logging.debug("WebhookHelpers: parameters --> {}".format(parameters))
 
         pass
 
