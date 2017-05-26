@@ -25,7 +25,8 @@ class WebhookHelpers(object):
         if not input_json:
             raise ValueError(error_message.format("The JSON data"))
 
-        parameters = input_json["parameters"]
+        result = input_json["result"]
+        parameters = result["parameters"]
         logging.debug("WebhookHandler: parameters --> {}".format(parameters))
 
         if action.lower() == "newgame":
