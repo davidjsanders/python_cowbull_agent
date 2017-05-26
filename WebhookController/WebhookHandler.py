@@ -29,6 +29,12 @@ class WebhookHandler(MethodView):
         except TypeError as ve:
             return self._build_error_response(response=str(ve))
 
+        return Response(
+            status=200,
+            response=json.dumps({"status": "ok"}),
+            mimetype="application/json"
+        )
+
     @staticmethod
     def _post_get_json():
         json_string = request.get_json(silent=True, force=True)
