@@ -34,6 +34,9 @@ class WebhookHandler(MethodView):
             request_data = self._post_get_json()
             helper = WebhookHelpers(game_url=cowbull_url)
             return_results = helper.perform_action(input_json=request_data)
+            webhook_response["contextOut"] = return_results["contextOut"]
+            webhook_response["speech"] = return_results["speech"]
+            webhook_response["displayText"] = return_results["displayText"]
         except KeyError as k:
             return self._build_error_response(
                 response="The key {} is missing from the JSON".format(str(k))
@@ -42,7 +45,6 @@ class WebhookHandler(MethodView):
             return self._build_error_response(
                 response="{}".format(str(e))
             )
-        webhook_response["displayText"] = return_results
 
 #        if action.lower() == "newgame":
 #            helper.validate_mode(mode=m)
