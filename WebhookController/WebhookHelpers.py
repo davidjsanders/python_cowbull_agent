@@ -130,6 +130,7 @@ class WebhookHelpers(object):
         r = None
 
         try:
+            logging.debug("WebhookHelpers-newgame: Validating mode {}".format(mode))
             r = requests.get(url=url)
         except exceptions.ConnectionError as re:
             raise IOError("Game reported an error: {}".format(str(re)))
