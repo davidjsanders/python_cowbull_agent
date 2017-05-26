@@ -177,6 +177,8 @@ class WebhookHelpers(object):
                 if r.status_code == 404:
                     err_text = "The game engine reported a 404 (not found) error. The service may " \
                                "be temporarily unavailable"
+                elif r.status_code == 400:
+                    err_text = "The mode you entered isn't supported!"
                 raise IOError(err_text)
             else:
                 table = r.json()
@@ -186,6 +188,6 @@ class WebhookHelpers(object):
                     self.selected_mode = _mode
                     return True
                 else:
-                    return False
+                    raise ValueError("The mode you entered ({}) isn't supported".format(mode))
         else:
-            return []
+            raise IOError("Oh dear! Something went wrong and I don't know what!")
