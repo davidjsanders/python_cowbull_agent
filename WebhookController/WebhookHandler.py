@@ -33,9 +33,9 @@ class WebhookHandler(MethodView):
         try:
             request_data = self._post_get_json()
             result = request_data["result"]
-            logging.debug("WebhookHandler: result data --> {}".format(result))
+            logging.debug("WebhookHandler: result data --> {}B".format(len(str(result).encode('utf-8'))))
 
-            action = result["actions"]
+            action = result["action"]
             logging.debug("WebhookHandler: action --> {}".format(action))
 
             parameters = result["parameters"]
