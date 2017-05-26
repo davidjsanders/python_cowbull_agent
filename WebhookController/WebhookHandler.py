@@ -33,7 +33,8 @@ class WebhookHandler(MethodView):
         try:
             request_data = self._post_get_json()
             result = request_data["result"]
-            logging.debug("WebhookHandler: result data --> {}B".format(len(str(result).encode('utf-8'))))
+            bytesize = len(str(result).encode('utf-8'))
+            logging.debug("WebhookHandler: result data --> {}B".format(bytesize))
 
             action = result["action"]
             logging.debug("WebhookHandler: action --> {}".format(action))
@@ -77,10 +78,8 @@ class WebhookHandler(MethodView):
         if json_string is None:
             raise TypeError("No JSON was provided in the request!")
 
-        logging.debug("JSON provided was {}B long".format(
-                len(str(json_string).encode('utf-8'))
-            )
-        )
+        bytesize = len(str(json_string).encode('utf-8'))
+        logging.debug("WebhookHandler: JSON provided was {}B long".format(bytesize))
 
         _result = {
             "lang": json_string.get('lang', None),
