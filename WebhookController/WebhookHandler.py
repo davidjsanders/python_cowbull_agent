@@ -32,29 +32,12 @@ class WebhookHandler(MethodView):
 
         try:
             request_data = self._post_get_json()
-            result = request_data["result"]
-            bytesize = len(str(result).encode('utf-8'))
-            logging.debug("WebhookHandler: result data --> {}B".format(bytesize))
-
-            action = result["action"]
-            if action.lower() not in WebhookHelpers.supported_actions:
-                raise ValueError("Unknown action: {}".format(action))
-            logging.debug("WebhookHandler: action --> {}".format(action))
-
-            parameters = result["parameters"]
-            logging.debug("WebhookHandler: parameters --> {}".format(parameters))
+            helper = WebhookHelpers(cowbull_url=cowbull_url)
+            return_results = helper.do_action(action=action, input_json=request_data)
         except KeyError as k:
             return self._build_error_response(
                 response="{}: The key {} is missing from the JSON".format(k.__class__.__name__, str(k))
             )
-        except Exception as e:
-            return self._build_error_response(
-                response="{}: {}".format(e.__class__.__name__, str(e))
-            )
-
-        try:
-            helper = WebhookHelpers(cowbull_url=cowbull_url)
-            return_results = helper.do_action(action=action, input_json=request_data)
         except Exception as e:
             return self._build_error_response(
                 response="{}: {}".format(e.__class__.__name__, str(e))

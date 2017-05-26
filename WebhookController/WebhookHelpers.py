@@ -26,6 +26,14 @@ class WebhookHelpers(object):
             raise ValueError(error_message.format("The JSON data"))
 
         result = input_json["result"]
+        bytesize = len(str(result).encode('utf-8'))
+        logging.debug("WebhookHandler: result data --> {}B".format(bytesize))
+
+        action = result["action"]
+        if action.lower() not in WebhookHelpers.supported_actions:
+            raise ValueError("Unknown action: {}".format(action))
+        logging.debug("WebhookHandler: action --> {}".format(action))
+
         parameters = result["parameters"]
         logging.debug("WebhookHandler: parameters --> {}".format(parameters))
 
