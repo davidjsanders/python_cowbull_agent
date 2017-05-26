@@ -35,7 +35,7 @@ class WebhookHandler(MethodView):
             result = request_data["result"]
             logging.debug("WebhookHandler: result data --> {}".format(result))
 
-            action = result["action"]
+            action = result["actions"]
             logging.debug("WebhookHandler: action --> {}".format(action))
 
             parameters = result["parameters"]
