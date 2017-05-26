@@ -78,7 +78,7 @@ class WebhookHandler(MethodView):
             raise TypeError("No JSON was provided in the request!")
 
         logging.debug("JSON provided was {}B long".format(
-                str(json_string).encode('utf-8')
+                len(str(json_string).encode('utf-8'))
             )
         )
 
