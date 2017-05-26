@@ -48,15 +48,6 @@ class WebhookHandler(MethodView):
             "originalRequest": json_string.get('originalRequest', None)
         }
 
-        if _result["result"] is None\
-                or _result["status"] is None\
-                or _result["timestamp"] is None\
-                or _result["sessionId"] is None\
-                or _result["result"] is None\
-                or _result["id"] is None\
-                or _result["originalRequest"] is None:
-            raise ValueError("The JSON provided in the request is badly formed!")
-
         return _result
 
     def oldpost(self):
