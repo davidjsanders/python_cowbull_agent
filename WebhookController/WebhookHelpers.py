@@ -32,8 +32,8 @@ class WebhookHelpers(object):
         action = self.action_dict["result"]["action"]
         if action.lower() not in WebhookHelpers.supported_actions:
             raise ValueError("Unknown action: {}".format(action))
-        logging.debug("WebhookHelpers: action --> {}".format(action))
 
+        logging.debug("WebhookHelpers: Processing action {}".format(action))
         if action.lower() == "newgame":
             self.new_game()
         elif action.lower() == "makeguess":
