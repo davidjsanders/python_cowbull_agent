@@ -40,10 +40,8 @@ class WebhookHelpers(object):
         return results
 
     def new_game(self):
-        parameters = self.action_dict["result"]["parameters"]
-        mode = parameters["mode"]
+        mode = self.action_dict["result"]["parameters"]["mode"]
         self.validate_mode(mode=mode)
-        logging.debug("WebhookHelpers-newgame: parameters --> {}".format(parameters))
 
         pass
 
