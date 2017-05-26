@@ -37,7 +37,7 @@ class WebhookHelpers(object):
 
     def new_game(self):
         parameters = self.action_dict["result"]["parameters"]
-        logging.debug("WebhookHelpers: parameters --> {}".format(parameters))
+        logging.debug("WebhookHelpers-newgame: parameters --> {}".format(parameters))
 
         pass
 
