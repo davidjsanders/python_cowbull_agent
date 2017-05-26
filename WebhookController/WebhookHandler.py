@@ -25,52 +25,57 @@ class WebhookHandler(MethodView):
             "parameters": None  # Shouldn't be here - for testing only
         }
 
+        request_data = None
+        result = None
+        action = None
+        parameters = None
+
         try:
             request_data = self._post_get_json()
-        except TypeError as ve:
-            return self._build_error_response(response=str(ve))
-        except Exception as e:
-            return self._build_error_response(response=repr(e))
-
-        try:
-            result = request_data.get("result", None)
-            if not result:
-                raise ValueError("The 'result' section of the request data is invalid.")
+            result = request_data["result"]
             logging.debug("WebhookHandler: result data --> {}".format(result))
 
-            action = result.get("action", None)
-            if not result:
-                raise ValueError("There's no action specified, so unable to process!")
+            action = result["action"]
+            logging.debug("WebhookHandler: action --> {}".format(action))
 
-            if action.lower() == "newgame":
-                return_results = self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
-                webhook_response["contextOut"] = return_results["contextOut"]
-                webhook_response["speech"] = return_results["speech"]
-                webhook_response["displayText"] = return_results["displayText"]
-            elif action.lower() == "makeguess":
-                return_results = self.perform_makeguess(
-                    cowbull_url=cowbull_url,
-                    parameters=parameters,
-                    contexts=contexts
-                )
-                webhook_response["contextOut"] = return_results["contextOut"]
-                webhook_response["speech"] = return_results["speech"]
-                webhook_response["displayText"] = return_results["displayText"]
-
-#            parameters = result.get("parameters")
-#            if not parameters:
-#                raise ValueError("The 'parameters' of the 'result' section of the request data is invalid.")
-#            logging.debug("WebhookHandler: parameters --> {}".format(parameters))
-        except ValueError as ve:
-            return self._build_error_response(response=str(ve))
+            parameters = result["parameters"]
+            logging.debug("WebhookHandler: parameters --> {}".format(parameters))
         except Exception as e:
-            return self._build_error_response(response=repr(e))
+            return self._build_error_response(
+                response="{}: {}".format(e.__class__.__name__, str(e))
+            )
+
+        if action.lower() == "newgame":
+            return_results = self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
+            webhook_response["contextOut"] = return_results["contextOut"]
+            webhook_response["speech"] = return_results["speech"]
+            webhook_response["displayText"] = return_results["displayText"]
+        elif action.lower() == "makeguess":
+            return_results = self.perform_makeguess(
+                cowbull_url=cowbull_url,
+                parameters=parameters,
+                contexts=contexts
+            )
+            webhook_response["contextOut"] = return_results["contextOut"]
+            webhook_response["speech"] = return_results["speech"]
+            webhook_response["displayText"] = return_results["displayText"]
 
         return Response(
             status=200,
             response=json.dumps(webhook_response),
             mimetype="application/json"
         )
+
+    @staticmethod
+    def _post_get_result(request_data=None):
+        if request_data is None:
+            raise ValueError("The request data is invalid.")
+
+        result = request_data.get("result", None)
+
+        if not result:
+            raise ValueError("The 'result' section of the request data is invalid.")
+        logging.debug("WebhookHandler: result data --> {}".format(result))
 
     @staticmethod
     def _post_get_json():
