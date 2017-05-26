@@ -73,7 +73,7 @@ class WebhookHelpers(object):
                                "be temporarily unavailable"
                 elif r.status_code == 400:
                     json_dict = r.json()
-                    err_text = "{}{}".format(json_dict["message"]["exception"])
+                    err_text = "{}{}".format(json_dict["message"], json_dict["exception"])
                 logging.debug("requests: Returned {} --> {}".format(r.status_code, r.text))
                 raise IOError(err_text)
             else:
