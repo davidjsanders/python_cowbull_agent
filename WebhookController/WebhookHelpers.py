@@ -7,6 +7,8 @@ from requests import exceptions
 
 
 class WebhookHelpers(object):
+    supported_actions = ["newgame", "makeguess", "getmodes"]
+
     game_modes = []
     selected_mode = None
     cowbull_url = None
@@ -16,7 +18,25 @@ class WebhookHelpers(object):
             raise TypeError("The Cowbull game URL is incorrectly configured!")
         self.cowbull_url = cowbull_url
 
-    def mkae_guess(self, key=None, digits_required=0, digits=[]):
+    def do_action(self, action=None, input_json=None):
+        error_message = "{} is not defined for some reason - something has gone wrong."
+        if not action:
+            raise ValueError(error_message.format("Action"))
+        if not input_json:
+            raise ValueError(error_message.format("The JSON data"))
+
+        parameters = input_json["parameters"]
+        logging.debug("WebhookHandler: parameters --> {}".format(parameters))
+
+        if action.lower() == "newgame":
+            pass
+        elif action.lower() == "makeguess":
+            pass
+
+    def new_game(self, mode=None):
+        pass
+
+    def make_guess(self, key=None, digits_required=0, digits=[]):
         if key is None:
             raise ValueError("The key cannot be null (None), so a guess cannot be made.")
 

@@ -37,6 +37,8 @@ class WebhookHandler(MethodView):
             logging.debug("WebhookHandler: result data --> {}B".format(bytesize))
 
             action = result["action"]
+            if action.lower() not in WebhookHelpers.supported_actions:
+                raise ValueError("Unknown action: {}".format(action))
             logging.debug("WebhookHandler: action --> {}".format(action))
 
             parameters = result["parameters"]
@@ -50,17 +52,26 @@ class WebhookHandler(MethodView):
                 response="{}: {}".format(e.__class__.__name__, str(e))
             )
 
-        if action.lower() == "newgame":
-            self._action_newgame(url=cowbull_url, parameters=parameters, output=webhook_response)
-        elif action.lower() == "makeguess":
-            return_results = self.perform_makeguess(
-                cowbull_url=cowbull_url,
-                parameters=parameters,
-                contexts=contexts
+        try:
+            helper = WebhookHelpers(cowbull_url=cowbull_url)
+            return_results = helper.do_action(action=action, input_json=request_data)
+        except Exception as e:
+            return self._build_error_response(
+                response="{}: {}".format(e.__class__.__name__, str(e))
             )
-            webhook_response["contextOut"] = return_results["contextOut"]
-            webhook_response["speech"] = return_results["speech"]
-            webhook_response["displayText"] = return_results["displayText"]
+
+#        if action.lower() == "newgame":
+#            helper.validate_mode(mode=m)
+#            self._action_newgame(url=cowbull_url, parameters=parameters, output=webhook_response)
+#        elif action.lower() == "makeguess":
+#            return_results = self.perform_makeguess(
+#                cowbull_url=cowbull_url,
+#                parameters=parameters,
+#                contexts=contexts
+#            )
+#            webhook_response["contextOut"] = return_results["contextOut"]
+#            webhook_response["speech"] = return_results["speech"]
+#            webhook_response["displayText"] = return_results["displayText"]
 
         return Response(
             status=200,
@@ -82,10 +93,10 @@ class WebhookHandler(MethodView):
 
         if not helper.validate_mode(mode=_mode):
             raise ValueError("The mode {} is not supported".format(_mode))
-        logging.debug("WebhookHelper: _action_newgame: {} mode validated". format(_mode))
+        logging.debug("WebhookHandler: _action_newgame: {} mode validated". format(_mode))
 
         game_object = helper.fetch_new_game()
-        logging.debug("WebhookHelper: _action_newgame: Game created in {} mode.". format(_mode))
+        logging.debug("WebhookHandler: _action_newgame: Game created in {} mode.". format(_mode))
 
         text_return = "Okay, I've started a new game. You have {} guesses to guess {} numbers."\
             .format(game_object["guesses"],game_object["digits"])
@@ -96,13 +107,13 @@ class WebhookHandler(MethodView):
             {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}},
             {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
         ]
-        logging.debug("WebhookHelper: _action_newgame: Added contextOut to response.")
+        logging.debug("WebhookHandler: _action_newgame: Added contextOut to response.")
 
         output["speech"] = text_return
-        logging.debug("WebhookHelper: _action_newgame: Added speech to response.")
+        logging.debug("WebhookHandler: _action_newgame: Added speech to response.")
 
         output["displayText"] = text_return
-        logging.debug("WebhookHelper: _action_newgame: Added display text to response.")
+        logging.debug("WebhookHandler: _action_newgame: Added display text to response.")
 
     @staticmethod
     def _post_get_json():
@@ -222,7 +233,7 @@ class WebhookHandler(MethodView):
         guesses = [n["parameters"]["guesses_remaining"] for n in _contexts if n["name"] == "guesses"][0]
         digits_guessed = [int(n) for n in _parameters.get("digitlist", None)]
 
-        guess_analysis = helper.mkae_guess(key=key, digits_required=digits_required, digits=digits_guessed)
+        guess_analysis = helper.make_guess(key=key, digits_required=digits_required, digits=digits_guessed)
 
         game = guess_analysis.get('game', None)
         status = game.get('status', None)
@@ -266,37 +277,6 @@ class WebhookHandler(MethodView):
             "speech": response_text,
             "displayText": response_text
         }
-
-    def perform_newgame(self, cowbull_url=None, parameters=None):
-        helper = WebhookHelpers(cowbull_url=cowbull_url)
-
-        _parameters = parameters or {"mode": "normal"}
-        _mode = _parameters.get('mode', None)
-        if _mode is None:
-            _mode = "normal"
-
-        logging.debug("Validating game mode")
-        if not helper.validate_mode(mode=_mode):
-            raise ValueError("The mode {} is not supported".format(_mode))
-
-        logging.debug("Starting a new game in {} mode". format(_mode))
-        game_object = helper.fetch_new_game()
-
-        text_return = "Okay, I've started a new game. You have {} guesses to guess {} numbers."\
-            .format(game_object["guesses"],game_object["digits"])
-
-        return_object = {
-            "contextOut": [
-                {"name": "digits", "lifespan": 15, "parameters": {"digits": game_object["digits"]}},
-                {"name": "guesses", "lifespan": 15, "parameters": {"guesses_remaining": game_object["guesses"]}},
-                {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}},
-                {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
-            ],
-            "speech": text_return,
-            "displayText": text_return
-        }
-
-        return return_object
 
     def _check_mimetype(self, request):
         request_mimetype = request.headers.get('Content-Type', None)
