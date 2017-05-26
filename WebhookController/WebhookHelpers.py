@@ -188,6 +188,6 @@ class WebhookHelpers(object):
                     self.selected_mode = _mode
                     return True
                 else:
-                    raise ValueError("The mode you entered ({}) isn't supported".format(mode))
+                    raise ValueError("The mode you entered ({}) isn't supported".format(_mode))
         else:
             raise IOError("Oh dear! Something went wrong and I don't know what!")
