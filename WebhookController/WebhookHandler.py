@@ -37,10 +37,29 @@ class WebhookHandler(MethodView):
                 raise ValueError("The 'result' section of the request data is invalid.")
             logging.debug("WebhookHandler: result data --> {}".format(result))
 
-            parameters = result.get("parameters")
-            if not parameters:
-                raise ValueError("The 'parameters' of the 'result' section of the request data is invalid.")
-            logging.debug("WebhookHandler: parameters --> {}".format(parameters))
+            action = result.get("action", None)
+            if not result:
+                raise ValueError("There's no action specified, so unable to process!")
+
+            if action.lower() == "newgame":
+                return_results = self.perform_newgame(cowbull_url=cowbull_url, parameters=parameters)
+                webhook_response["contextOut"] = return_results["contextOut"]
+                webhook_response["speech"] = return_results["speech"]
+                webhook_response["displayText"] = return_results["displayText"]
+            elif action.lower() == "makeguess":
+                return_results = self.perform_makeguess(
+                    cowbull_url=cowbull_url,
+                    parameters=parameters,
+                    contexts=contexts
+                )
+                webhook_response["contextOut"] = return_results["contextOut"]
+                webhook_response["speech"] = return_results["speech"]
+                webhook_response["displayText"] = return_results["displayText"]
+
+#            parameters = result.get("parameters")
+#            if not parameters:
+#                raise ValueError("The 'parameters' of the 'result' section of the request data is invalid.")
+#            logging.debug("WebhookHandler: parameters --> {}".format(parameters))
         except ValueError as ve:
             return self._build_error_response(response=str(ve))
         except Exception as e:
@@ -48,7 +67,7 @@ class WebhookHandler(MethodView):
 
         return Response(
             status=200,
-            response=json.dumps({"status": "ok"}),
+            response=json.dumps(webhook_response),
             mimetype="application/json"
         )
 
