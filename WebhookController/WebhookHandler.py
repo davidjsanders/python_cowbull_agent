@@ -13,6 +13,7 @@ class WebhookHandler(MethodView):
     def post(self):
         logging.debug("WebhookHandler: Processing POST request.")
 
+        cowbull_url = app.config.get("COWBULL_URL", None)
         webhook_response = {
             "speech": None,
             "displayText": None,
