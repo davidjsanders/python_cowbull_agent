@@ -35,10 +35,12 @@ class WebhookHandler(MethodView):
             result = request_data.get("result", None)
             if not result:
                 raise ValueError("The 'result' section of the request data is invalid.")
+            logging.debug("WebhookHandler: result data --> {}".format(result))
 
             parameters = result.get("parameters")
             if not parameters:
                 raise ValueError("The 'parameters' of the 'result' section of the request data is invalid.")
+            logging.debug("WebhookHandler: parameters --> {}".format(parameters))
         except ValueError as ve:
             return self._build_error_response(response=str(ve))
         except Exception as e:
