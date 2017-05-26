@@ -36,11 +36,11 @@ class WebhookHandler(MethodView):
             return_results = helper.perform_action(input_json=request_data)
         except KeyError as k:
             return self._build_error_response(
-                response="{}: The key {} is missing from the JSON".format(k.__class__.__name__, str(k))
+                response="The key {} is missing from the JSON".format(str(k))
             )
         except Exception as e:
             return self._build_error_response(
-                response="{}: {}".format(e.__class__.__name__, str(e))
+                response="{}".format(str(e))
             )
         webhook_response["displayText"] = return_results
 
