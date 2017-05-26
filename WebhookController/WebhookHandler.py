@@ -280,11 +280,19 @@ class WebhookHandler(MethodView):
         logging.error(
             "HTML Status: {}; Response: {}".format(status_code, response)
         )
+        webhook_response = {
+            "speech": response,
+            "displayText": response,
+            "data": {},
+            "source": "cowbull-agent",
+            "followupEvent": {},
+            "contextOut": [],
+            "result": None,  # Shouldn't be here - for testing only
+            "parameters": None  # Shouldn't be here - for testing only
+        }
+
         return Response(
             status=status_code,
             mimetype="application/json",
-            response=json.dumps({
-                "status": status_code,
-                "message": response
-            })
+            response=json.dumps(webhook_response)
         )
