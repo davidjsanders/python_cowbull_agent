@@ -40,6 +40,7 @@ class WebhookHelpers(object):
         return results
 
     def new_game(self):
+        output = {}
         mode = self.action_dict["result"]["parameters"]["mode"]
         self.validate_mode(mode=mode)
 
@@ -60,12 +61,25 @@ class WebhookHelpers(object):
                                "be temporarily unavailable"
                 raise IOError(err_text)
             else:
-                table = r.json()
-                return table
+                game_object = r.json()
+
+                output["contextOut"] = [
+                    {"name": "digits", "lifespan": 15, "parameters": {"digits": game_object["digits"]}},
+                    {"name": "guesses", "lifespan": 15, "parameters": {"guesses_remaining": game_object["guesses"]}},
+                    {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}},
+                    {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
+                ]
+                output["speech"] = output["displayText"] = \
+                    "Okay, I've started a new game. You have {} guesses to guess {} numbers." \
+                    .format(
+                        game_object["guesses"],
+                        game_object["digits"]
+                    )
         else:
             err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)
             raise IOError(err_text)
 
+        return output
 
     def make_guess(self, key=None, digits_required=0, digits=[]):
         if key is None:
