@@ -40,6 +40,10 @@ class WebhookHandler(MethodView):
 
             parameters = result["parameters"]
             logging.debug("WebhookHandler: parameters --> {}".format(parameters))
+        except KeyError as k:
+            return self._build_error_response(
+                response="{}: The key '{}' is missing from the JSON".format(k.__class__.__name__, str(k))
+            )
         except Exception as e:
             return self._build_error_response(
                 response="{}: {}".format(e.__class__.__name__, str(e))
