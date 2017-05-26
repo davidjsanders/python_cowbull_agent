@@ -32,8 +32,8 @@ class WebhookHandler(MethodView):
 
         try:
             request_data = self._post_get_json()
-            helper = WebhookHelpers(cowbull_url=cowbull_url)
-            return_results = helper.do_action(input_json=request_data)
+            helper = WebhookHelpers(game_url=cowbull_url)
+            return_results = helper.perform_action(input_json=request_data)
         except KeyError as k:
             return self._build_error_response(
                 response="{}: The key {} is missing from the JSON".format(k.__class__.__name__, str(k))
@@ -71,7 +71,7 @@ class WebhookHandler(MethodView):
         if not parameters or not isinstance(parameters, dict):
             raise ValueError("Parameters to _action_newgame were None or badly formed!")
 
-        helper = WebhookHelpers(cowbull_url=url)
+        helper = WebhookHelpers(game_url=url)
         _mode = parameters.get('mode', 'normal')
 
         if not helper.validate_mode(mode=_mode):
@@ -201,7 +201,7 @@ class WebhookHandler(MethodView):
         )
 
     def perform_makeguess(self, cowbull_url=None, parameters=None, contexts=None):
-        helper = WebhookHelpers(cowbull_url=cowbull_url)
+        helper = WebhookHelpers(game_url=cowbull_url)
 
         _parameters = parameters or []
         if _parameters == []:

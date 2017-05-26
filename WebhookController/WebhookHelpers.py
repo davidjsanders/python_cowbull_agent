@@ -11,36 +11,38 @@ class WebhookHelpers(object):
 
     game_modes = []
     selected_mode = None
-    cowbull_url = None
+    game_url = None
+    action_dict = {}
 
-    def __init__(self, cowbull_url=None):
-        if cowbull_url is None or not isinstance(cowbull_url, str):
+    def __init__(self, game_url=None):
+        if game_url is None or not isinstance(game_url, str):
             raise TypeError("The Cowbull game URL is incorrectly configured!")
-        self.cowbull_url = cowbull_url
+        self.game_url = game_url
 
-    def do_action(self, input_json=None):
+    def perform_action(self, input_json=None):
         error_message = "{} is not defined for some reason - something has gone wrong."
         if not input_json:
             raise ValueError(error_message.format("The JSON data"))
+        self.action_dict = input_json
 
-        result = input_json["result"]
+        result = self.action_dict["result"]
         bytesize = len(str(result).encode('utf-8'))
         logging.debug("WebhookHandler: result data --> {}B".format(bytesize))
 
-        action = result["action"]
+        action = self.action_dict["result"]["action"]
         if action.lower() not in WebhookHelpers.supported_actions:
             raise ValueError("Unknown action: {}".format(action))
         logging.debug("WebhookHandler: action --> {}".format(action))
 
-        parameters = result["parameters"]
-        logging.debug("WebhookHandler: parameters --> {}".format(parameters))
-
         if action.lower() == "newgame":
-            pass
+            self.new_game()
         elif action.lower() == "makeguess":
             pass
 
-    def new_game(self, mode=None):
+    def new_game(self):
+        parameters = self.action_dict["result"]["parameters"]
+        logging.debug("WebhookHandler: parameters --> {}".format(parameters))
+
         pass
 
     def make_guess(self, key=None, digits_required=0, digits=[]):
@@ -56,7 +58,7 @@ class WebhookHelpers(object):
         if digits == [] or len(digits) != digits_required:
             raise ValueError("There must be {0} and only {0} digits".format(digits_required))
 
-        url = self.cowbull_url.format('game')
+        url = self.game_url.format('game')
         headers = {"Content-Type": "application/json"}
         payload = {
             "key": key,
@@ -92,7 +94,7 @@ class WebhookHelpers(object):
         if self.selected_mode is None:
             raise ValueError('The game mode is null (None), so a game cannot be started.')
 
-        url = "{}?mode={}".format(self.cowbull_url.format('game'), self.selected_mode)
+        url = "{}?mode={}".format(self.game_url.format('game'), self.selected_mode)
         r = None
 
         try:
@@ -122,7 +124,7 @@ class WebhookHelpers(object):
 
         _mode = mode or "normal"
 
-        url = self.cowbull_url.format("modes")
+        url = self.game_url.format("modes")
         r = None
 
         try:
