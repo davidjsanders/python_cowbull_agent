@@ -6,7 +6,7 @@ from flask import render_template, request, Response
 from flask.views import MethodView
 from requests import exceptions
 from werkzeug.exceptions import BadRequest
-from WebhookController.WebhookHelpers import WebhookHelpers
+from OldWebhookController.WebhookHelpers import WebhookHelpers
 
 
 class WebhookHandler(MethodView):
