@@ -12,7 +12,7 @@ class MakeGuess(object):
         return {
             "status": 200,
             "message": "",
-            "contextOut": ["InError"],
+            "contextOut": [],
             "speech": "Coming soon! Sorry, it's not ready yet.",
             "displayText": "Coming soon! Sorry, it's not ready yet."
         }

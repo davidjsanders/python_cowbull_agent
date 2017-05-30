@@ -1,40 +1,128 @@
 {
-  "id": "ac333174-ffbe-4ce9-9610-c9450900fc62",
-  "timestamp": "2017-05-25T01:00:31.608Z",
+  "id": "699868e5-e5b0-4b4a-b266-feeccd543948",
+  "timestamp": "2017-05-30T01:36:36.805Z",
   "lang": "en",
   "result": {
     "source": "agent",
-    "resolvedQuery": "guess 1 2 3 4",
-    "action": "makeguess",
+    "resolvedQuery": "i guess 1 2 3 4",
+    "action": "MakeGuess",
     "actionIncomplete": false,
     "parameters": {
       "digitlist": [
+        "1",
         "2",
         "3",
         "4"
       ]
     },
-    "contexts": [],
+    "contexts": [
+      {
+        "name": "digits",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "digits": 4
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "served-by",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "served-by": "cowbull-test-project.appspot.com"
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "guesses",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "guesses_remaining": 10,
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "key",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "key": "1878879c-5d33-463c-b2ff-bb7a0691ddd5"
+        },
+        "lifespan": 5
+      }
+    ],
     "metadata": {
       "intentId": "11481c7d-9218-4089-ba66-ec3e1893cc65",
-      "webhookUsed": "false",
+      "webhookUsed": "true",
       "webhookForSlotFillingUsed": "false",
+      "webhookResponseTime": 33,
       "intentName": "I guess"
     },
     "fulfillment": {
-      "speech": "Thanks, let's try that.",
+      "speech": "Oh shoot! It appears that the game server isn't available.",
       "messages": [
         {
           "type": 0,
-          "speech": "Thanks, let's try that."
+          "speech": "Oh shoot! It appears that the game server isn't available."
         }
       ]
     },
-    "score": 0.89
+    "score": 1
   },
   "status": {
-    "code": 200,
-    "errorType": "success"
+    "code": 206,
+    "errorType": "partial_content",
+    "errorDetails": "Webhook call failed. Error: Webhook response was empty."
   },
   "sessionId": "28a8d075-b521-4e31-9786-a5ccde6b27c6"
 }

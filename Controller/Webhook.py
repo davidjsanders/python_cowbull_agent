@@ -53,6 +53,7 @@ class Webhook(MethodView):
                     context=request_object["contexts"],
                     parameters=request_object["parameters"]
                 )
+                logging.debug("Return results: {}".format(return_results))
                 response_object["contextOut"] = return_results["contextOut"]
                 response_object["speech"] = return_results["speech"]
                 response_object["displayText"] = return_results["displayText"]
