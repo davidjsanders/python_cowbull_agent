@@ -18,9 +18,7 @@ class NewGame(object):
         if not mode_valid:
             raise ValueError("The mode you entered ({}) isn't supported".format(mode))
 
-        game_output = self._fetch_game(mode=mode)
-
-        return {"game": game_output}
+        return self._fetch_game(mode=mode)
 
     def do_slot(self):
         return {"modes": self._fetch_modes()}

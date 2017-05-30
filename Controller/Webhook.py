@@ -12,7 +12,13 @@ class Webhook(MethodView):
 
         response_object = {
             "status": 200,
-            "message": "success"
+            "message": "success",
+            "speech": None,
+            "displayText": None,
+            "data": {},
+            "source": "cowbull-agent",
+            "followupEvent": {},
+            "contextOut": []
         }
 
         request_object = {}
@@ -43,10 +49,14 @@ class Webhook(MethodView):
             if slot_filling:
                 response_object["data"] = action.do_slot()
             else:
-                response_object["data"] = action.do_action(
+                return_results = action.do_action(
                     context=request_object["contexts"],
                     parameters=request_object["parameters"]
                 )
+                response_object["contextOut"] = return_results["contextOut"]
+                response_object["speech"] = return_results["speech"]
+                response_object["displayText"] = return_results["displayText"]
+
         except KeyError as ke:
             response_object = self._handle_error(
                 400,
@@ -64,7 +74,17 @@ class Webhook(MethodView):
 
     def _handle_error(self, error_code, error_msg):
         logging.debug("Error Raised: {} {}".format(error_code, error_msg))
-        return {
+
+        error_text = "An error ({}) occurred: {}".format(error_code, error_msg)
+        response_object = {
             "status": error_code,
-            "message": error_msg
+            "message": "success",
+            "speech": error_text,
+            "displayText": error_text,
+            "data": {},
+            "source": "cowbull-agent",
+            "followupEvent": {},
+            "contextOut": ["InError"]
         }
+
+        return response_object
