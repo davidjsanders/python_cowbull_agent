@@ -39,6 +39,7 @@ class MakeGuess(AbstractAction):
     def do_slot(self, context, parameters):
         pass
 
+    @staticmethod
     def _get_digits_entered(self, parameters):
         digits_entered = [int(i) for i in parameters["digitlist"]]
         bad_digits = [i for i in digits_entered if i < 0 or i > 9]
@@ -49,11 +50,13 @@ class MakeGuess(AbstractAction):
         logging.debug("The digits input were: {}".format(digits_entered))
         return digits_entered
 
+    @staticmethod
     def _get_digits_required(self, context):
         digits_required = int([i["parameters"]["digits"] for i in context if i["name"] == "digits"][0])
         logging.debug("{} digits are required.".format(digits_required))
         return digits_required
 
+    @staticmethod
     def _check_digit_lengths(self, digits_entered, digits_required):
         if len(digits_entered) != digits_required:
             raise ValueError("You must enter {0} and only {0} digits".format(digits_required))
