@@ -11,6 +11,7 @@ class MakeGuess(AbstractAction):
 
     def do_action(self, context=None, parameters=None):
         logging.debug("MakeGuess: In do_action for make guess fulfillment")
+        logging.debug("MakeGuess: Context: {}. Parameters: {}.".format(context, parameters))
         return {
             "status": 200,
             "message": "",
