@@ -1,6 +1,6 @@
 {
-  "id": "699868e5-e5b0-4b4a-b266-feeccd543948",
-  "timestamp": "2017-05-30T01:36:36.805Z",
+  "id": "7f913a1f-53b5-4f35-8d33-56772dfefb7e",
+  "timestamp": "2017-05-30T18:11:07.634Z",
   "lang": "en",
   "result": {
     "source": "agent",
@@ -9,10 +9,10 @@
     "actionIncomplete": false,
     "parameters": {
       "digitlist": [
-        "1",
-        "2",
         "3",
-        "4"
+        "4",
+        "0",
+        "1"
       ]
     },
     "contexts": [
@@ -80,6 +80,27 @@
         "lifespan": 5
       },
       {
+        "name": "modes",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "digits": "easy, normal, hard"
+        },
+        "lifespan": 13
+      },
+      {
         "name": "key",
         "parameters": {
           "mode": "normal",
@@ -96,7 +117,7 @@
             "3",
             "4"
           ],
-          "key": "1878879c-5d33-463c-b2ff-bb7a0691ddd5"
+          "key": "5c559b1b-0643-4778-bcaf-78881976a4ff"
         },
         "lifespan": 5
       }
@@ -105,24 +126,26 @@
       "intentId": "11481c7d-9218-4089-ba66-ec3e1893cc65",
       "webhookUsed": "true",
       "webhookForSlotFillingUsed": "false",
-      "webhookResponseTime": 33,
+      "webhookResponseTime": 109,
       "intentName": "I guess"
     },
     "fulfillment": {
-      "speech": "Oh shoot! It appears that the game server isn't available.",
+      "speech": "Coming soon! Sorry, it's not ready yet.",
+      "source": "cowbull-agent",
+      "displayText": "Coming soon! Sorry, it's not ready yet.",
       "messages": [
         {
           "type": 0,
-          "speech": "Oh shoot! It appears that the game server isn't available."
+          "speech": "Coming soon! Sorry, it's not ready yet."
         }
-      ]
+      ],
+      "data": {}
     },
     "score": 1
   },
   "status": {
-    "code": 206,
-    "errorType": "partial_content",
-    "errorDetails": "Webhook call failed. Error: Webhook response was empty."
+    "code": 200,
+    "errorType": "success"
   },
-  "sessionId": "28a8d075-b521-4e31-9786-a5ccde6b27c6"
+  "sessionId": "c31b5947-b9d1-43c5-9f3b-35e37bbc0437"
 }
