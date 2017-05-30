@@ -19,6 +19,9 @@ class MakeGuess(AbstractAction):
         digits_entered = [int(i) for i in parameters["digitlist"]]
         logging.debug("The digits input were: {}".format(digits_entered))
 
+        if len(digits_entered) != digits_required:
+            raise ValueError("You must enter {0} and only {0} digits".format(digits_required))
+
         return {
             "status": 200,
             "message": "",
