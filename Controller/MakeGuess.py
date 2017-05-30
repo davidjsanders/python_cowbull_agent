@@ -10,6 +10,8 @@ class MakeGuess(object):
     def do_action(self, context=None, parameters=None):
         logging.debug("MakeGuess: In do_action for make guess fulfillment")
         return {
+            "status": 200,
+            "message": "",
             "contextOut": ["InError"],
             "speech": "Coming soon! Sorry, it's not ready yet.",
             "displayText": "Coming soon! Sorry, it's not ready yet."
