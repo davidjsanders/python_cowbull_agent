@@ -47,7 +47,7 @@ class Webhook(MethodView):
             logging.debug("Webhook: Instantiated action class")
 
             if slot_filling:
-                response_object["data"] = action.do_slot(
+                return_results = action.do_slot(
                     context=request_object["contexts"],
                     parameters=request_object["parameters"]
                 )
