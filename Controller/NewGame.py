@@ -20,7 +20,12 @@ class NewGame(object):
 
         return self._fetch_game(mode=mode)
 
-    def do_slot(self):
+    def do_slot(self, context=None, parameters=None):
+        logging.debug("NewGame: Context: {}. Parameters: {}.".format(context, parameters))
+
+        if context is None or parameters is None:
+            raise ValueError("Context and/or Parameters must be set")
+
         return {"modes": self._fetch_modes()}
 
     def _fetch_game(self, mode=None):
