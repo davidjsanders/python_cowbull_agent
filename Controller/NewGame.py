@@ -5,9 +5,10 @@ from InitializationPackage import app
 
 class NewGame(object):
     def __init__(self):
-        logging.debug("NewGame: In __init__ for new game fulfillment")
+        pass
 
     def do_action(self, context=None, parameters=None):
+        logging.debug("NewGame: In do_action for new game fulfillment")
         logging.debug("NewGame: Context: {}. Parameters: {}.".format(context, parameters))
 
         if context is None or parameters is None:
@@ -21,6 +22,7 @@ class NewGame(object):
         return self._fetch_game(mode=mode)
 
     def do_slot(self, context=None, parameters=None):
+        logging.debug("NewGame: In do_slot for new game fulfillment")
         logging.debug("NewGame: Context: {}. Parameters: {}.".format(context, parameters))
 
         if context is None or parameters is None:
