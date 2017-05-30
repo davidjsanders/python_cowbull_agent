@@ -57,9 +57,9 @@ class Webhook(MethodView):
                     parameters=request_object["parameters"]
                 )
                 logging.debug("Return results: {}".format(return_results))
-                response_object["contextOut"] = return_results["contextOut"]
-                response_object["speech"] = return_results["speech"]
-                response_object["displayText"] = return_results["displayText"]
+            response_object["contextOut"] = return_results["contextOut"]
+            response_object["speech"] = return_results["speech"]
+            response_object["displayText"] = return_results["displayText"]
 
         except KeyError as ke:
             response_object = self._handle_error(
