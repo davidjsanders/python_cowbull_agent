@@ -4,7 +4,7 @@ from InitializationPackage import app
 from AbstractAction import AbstractAction
 
 
-class NewGame(AbstractAction):
+class NewGame(object):
     def __init__(self):
         pass
 
