@@ -13,7 +13,14 @@ class MakeGuess(AbstractAction):
         logging.debug("MakeGuess: In do_action for make guess fulfillment")
         logging.debug("MakeGuess: Context: {}. Parameters: {}.".format(context, parameters))
 
-        self._check_digit_lengths(context, parameters)
+        try:
+            self._check_digit_lengths(context, parameters)
+        except ValueError as ve:
+            return {
+                "contextOut": [],
+                "speech": str(ve),
+                "displayText": str(ve)
+            }
 
         return {
             "status": 200,
