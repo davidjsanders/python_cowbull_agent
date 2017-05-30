@@ -17,7 +17,7 @@ class MakeGuess(AbstractAction):
         logging.debug("{} digits are required.".format(digits_required))
 
         digits_entered = [int(i) for i in parameters["digitlist"]]
-        logging.debug("The digits input were: ".format(digits_entered))
+        logging.debug("The digits input were: {}".format(digits_entered))
 
         return {
             "status": 200,
