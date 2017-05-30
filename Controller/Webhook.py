@@ -1,6 +1,7 @@
 import json
 import logging
 import importlib
+from AbstractAction import AbstractAction
 from flask import request, Response
 from Controller.Helpers import Helpers
 from flask.views import MethodView
@@ -41,6 +42,8 @@ class Webhook(MethodView):
             ))
 
             action_class = helper.get_action_class(action=action_text)
+            if not issubclass(action_class, AbstractAction):
+                raise TypeError("The action class is not a concrete implementation of AbstractAction")
             logging.debug("Webhook: Loaded action module")
 
             action = action_class()
