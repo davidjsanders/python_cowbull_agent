@@ -12,6 +12,10 @@ class MakeGuess(AbstractAction):
     def do_action(self, context=None, parameters=None):
         logging.debug("MakeGuess: In do_action for make guess fulfillment")
         logging.debug("MakeGuess: Context: {}. Parameters: {}.".format(context, parameters))
+
+        digits_required = int([i["digits"] for i in context if i["name"] == "digits"][0])
+        logging.debug("{} digits are required.".format(digits_required))
+
         return {
             "status": 200,
             "message": "",
