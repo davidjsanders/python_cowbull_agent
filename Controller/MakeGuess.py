@@ -13,9 +13,13 @@ class MakeGuess(AbstractAction):
         logging.debug("MakeGuess: In do_action for make guess fulfillment")
         logging.debug("MakeGuess: Context: {}. Parameters: {}.".format(context, parameters))
 
+        # Step 1 - Validate the digits entered by the user and get the game key
         try:
             digits_required = self._get_digits_required(context)
             digits_entered = self._get_digits_entered(parameters)
+
+            key = [n["parameters"]["key"] for n in context if n["name"] == "key"][0]
+
             self._check_digit_lengths(digits_entered=digits_entered, digits_required=digits_required)
         except ValueError as ve:
             return {
@@ -37,6 +41,11 @@ class MakeGuess(AbstractAction):
 
     def _get_digits_entered(self, parameters):
         digits_entered = [int(i) for i in parameters["digitlist"]]
+        bad_digits = [i for i in digits_entered if i < 0 or i > 9]
+        if not bad_digits == []:
+            raise ValueError("Only digits between 0 and 9 may be used. "
+                             "Enter your digits separated by spaces or "
+                             "a comma and space.")
         logging.debug("The digits input were: {}".format(digits_entered))
         return digits_entered
 
