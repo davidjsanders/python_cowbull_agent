@@ -1,9 +1,10 @@
 import logging
 import requests
 from InitializationPackage import app
+from AbstractAction import AbstractAction
 
 
-class NewGame(object):
+class NewGame(AbstractAction):
     def __init__(self):
         pass
 
