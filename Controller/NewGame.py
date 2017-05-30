@@ -28,7 +28,17 @@ class NewGame(object):
         if context is None or parameters is None:
             raise ValueError("Context and/or Parameters must be set")
 
-        return {"modes": self._fetch_modes()}
+        modes = self._fetch_modes()
+        text_message = "Choose one of the following modes: {}".format(modes)
+        output = {
+            "contextOut": [
+                {"name": "modes", "lifespan": 15, "parameters": {"digits": modes}}
+            ],
+            "speech": text_message,
+            "displayText": text_message
+        }
+
+        return output
 
     def _fetch_game(self, mode=None):
         output = {}
