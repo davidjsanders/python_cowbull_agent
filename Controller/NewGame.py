@@ -6,7 +6,7 @@ from AbstractAction import AbstractAction
 
 class NewGame(AbstractAction):
     def __init__(self):
-        pass
+        super(NewGame, self).__init__()
 
     def do_action(self, context=None, parameters=None):
         logging.debug("NewGame: In do_action for new game fulfillment")
