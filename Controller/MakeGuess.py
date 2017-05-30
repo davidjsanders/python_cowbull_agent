@@ -13,14 +13,7 @@ class MakeGuess(AbstractAction):
         logging.debug("MakeGuess: In do_action for make guess fulfillment")
         logging.debug("MakeGuess: Context: {}. Parameters: {}.".format(context, parameters))
 
-        digits_required = int([i["parameters"]["digits"] for i in context if i["name"] == "digits"][0])
-        logging.debug("{} digits are required.".format(digits_required))
-
-        digits_entered = [int(i) for i in parameters["digitlist"]]
-        logging.debug("The digits input were: {}".format(digits_entered))
-
-        if len(digits_entered) != digits_required:
-            raise ValueError("You must enter {0} and only {0} digits".format(digits_required))
+        self._check_digit_lengths(context, parameters)
 
         return {
             "status": 200,
@@ -32,3 +25,14 @@ class MakeGuess(AbstractAction):
 
     def do_slot(self, context, parameters):
         pass
+
+    def _check_digit_lengths(self, context, parameters):
+        digits_required = int([i["parameters"]["digits"] for i in context if i["name"] == "digits"][0])
+        logging.debug("{} digits are required.".format(digits_required))
+
+        digits_entered = [int(i) for i in parameters["digitlist"]]
+        logging.debug("The digits input were: {}".format(digits_entered))
+
+        if len(digits_entered) != digits_required:
+            raise ValueError("You must enter {0} and only {0} digits".format(digits_required))
+
