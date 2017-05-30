@@ -9,7 +9,8 @@ class NewGame(AbstractAction):
         super(NewGame, self).__init__()
 
     def do_action(self, context=None, parameters=None):
-        logging.debug("NewGame: In do_action for new game fulfillment")
+        super(NewGame, self).do_action(context, parameters)
+        #logging.debug("NewGame: In do_action for new game fulfillment")
         logging.debug("NewGame: Context: {}. Parameters: {}.".format(context, parameters))
 
         if context is None or parameters is None:
@@ -23,7 +24,8 @@ class NewGame(AbstractAction):
         return self._fetch_game(mode=mode)
 
     def do_slot(self, context=None, parameters=None):
-        logging.debug("NewGame: In do_slot for new game fulfillment")
+        super(NewGame, self).do_slot(context, parameters)
+        #logging.debug("NewGame: In do_slot for new game fulfillment")
         logging.debug("NewGame: Context: {}. Parameters: {}.".format(context, parameters))
 
         if context is None or parameters is None:
