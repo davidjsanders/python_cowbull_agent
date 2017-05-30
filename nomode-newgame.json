@@ -5,8 +5,8 @@
   "result": {
     "source": "agent",
     "resolvedQuery": "play a normal game",
-    "action": "newgame",
-    "actionIncomplete": false,
+    "action": "NewGame",
+    "actionIncomplete": true,
     "parameters": {},
     "contexts": [],
     "metadata": {

@@ -5,10 +5,10 @@
   "result": {
     "source": "agent",
     "resolvedQuery": "play a normal game",
-    "action": "newgame",
+    "action": "NewGame",
     "actionIncomplete": false,
     "parameters": {
-      "mode": "crazy"
+      "mode": "daft"
     },
     "contexts": [],
     "metadata": {

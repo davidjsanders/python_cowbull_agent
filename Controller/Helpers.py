@@ -1,9 +1,21 @@
+import importlib
 from flask import request
 
 
 class Helpers(object):
     def __init__(self):
         pass
+
+    def get_action_class(self, action=None):
+        if not action:
+            raise ValueError("Helpers:get_package: Action was set to None!")
+
+        package_name = "{}".format(action)
+        mod = importlib.import_module(
+            "Controller.{}".format(package_name),
+            package=package_name
+        )
+        return getattr(mod, package_name)
 
     def validate_json(self, request_data=None):
         return_object = {}
