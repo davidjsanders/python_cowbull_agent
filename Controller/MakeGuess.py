@@ -36,16 +36,47 @@ class MakeGuess(AbstractAction):
         if not game_url:
             raise ValueError("COWBULL_URL is not defined, so the game cannot be played")
 
-        game_object = helper.execute_post_request(url=game_url, data=user_data)
-        logging.debug("Game object returned: {}".format(game_object))
+        guess_analysis = helper.execute_post_request(url=game_url, data=user_data)
+        logging.debug("Game object returned: {}".format(guess_analysis))
 
-        return {
-            "status": 200,
-            "message": "",
+        game = guess_analysis.get('game', None)
+        status = game.get('status', None)
+        guesses_remaining = int(game.get('guesses_remaining', 0))
+
+        outcome = guess_analysis.get('outcome', None)
+        message = outcome.get('message', None)
+        analysis = outcome.get('analysis', None)
+        cows = outcome.get('cows', 0)
+        bulls = outcome.get('bulls', 0)
+
+        response_text = None
+        if status.lower() in ["won", "lost"]:
+            response_text = message
+        else:
+            message_text = ""
+            for a in analysis:
+                if a["match"]:
+                    message_text += "{} is a bull".format(a["digit"])
+                elif a["in_word"]:
+                    message_text += "{} is a cow".format(a["digit"])
+                else:
+                    message_text += "{} is a miss".format(a["digit"])
+
+                if a["multiple"]:
+                    message_text += " and occurs more than once. "
+                else:
+                    message_text += ". "
+
+            message_text += "You have {} goes remaining!".format(guesses_remaining)
+            response_text = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
+
+        output = {
             "contextOut": [],
-            "speech": "Coming soon! Sorry, it's not ready yet.",
-            "displayText": "Coming soon! Sorry, it's not ready yet."
+            "speech": response_text,
+            "displayText": response_text
         }
+
+        return output
 
     def do_slot(self, context, parameters):
         pass
