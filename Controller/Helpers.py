@@ -1,4 +1,6 @@
 import importlib
+import logging
+import requests
 from flask import request
 
 
@@ -16,6 +18,29 @@ class Helpers(object):
             package=package_name
         )
         return getattr(mod, package_name)
+
+    @staticmethod
+    def execute_get_request(url=None):
+        try:
+            logging.debug("fetch_new_game: Connecting to {}".format(url))
+            r = requests.get(url=url)
+            #        except exceptions.ConnectionError as re:
+            #            raise IOError("Game reported an error: {}".format(str(re)))
+        except Exception as e:
+            raise IOError("Game reported an exception: {}".format(repr(e)))
+
+        if r is not None:
+            if r.status_code != 200:
+                err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)
+                if r.status_code == 404:
+                    err_text = "The game engine reported a 404 (not found) error. The service may " \
+                               "be temporarily unavailable"
+                raise IOError(err_text)
+            else:
+                return r.json()
+        else:
+            err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)
+            raise IOError(err_text)
 
     def validate_json(self, request_data=None):
         return_object = {}

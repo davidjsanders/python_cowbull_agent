@@ -42,11 +42,6 @@ class MakeGuess(AbstractAction):
     @staticmethod
     def _get_digits_entered(self, parameters):
         digits_entered = [int(i) for i in parameters["digitlist"]]
-        bad_digits = [i for i in digits_entered if i < 0 or i > 9]
-        if len(bad_digits) > 0:
-            raise ValueError("Only digits between 0 and 9 may be used. "
-                             "Enter your digits separated by spaces or "
-                             "a comma and space.")
         logging.debug("The digits input were: {}".format(digits_entered))
         return digits_entered
 

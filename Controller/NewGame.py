@@ -1,5 +1,6 @@
 import logging
 import requests
+from Helpers import Helpers
 from InitializationPackage import app
 from AbstractAction import AbstractAction
 
@@ -50,7 +51,9 @@ class NewGame(AbstractAction):
 
         url = game_url.format("game") + "?mode={}".format(mode)
 
-        game_object = self._execute_request(url=url)
+        helper = Helpers()
+        game_object = helper.execute_get_request(url=url)
+        #game_object = self._execute_request(url=url)
 
         output["contextOut"] = [
             {"name": "digits", "lifespan": 15, "parameters": {"digits": game_object["digits"]}},
