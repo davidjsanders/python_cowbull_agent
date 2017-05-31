@@ -40,19 +40,14 @@ class MakeGuess(AbstractAction):
         pass
 
     @staticmethod
-    def _get_digits_entered(self, parameters):
+    def _get_digits_entered(parameters):
         digits_entered = [int(i) for i in parameters["digitlist"]]
         logging.debug("The digits input were: {}".format(digits_entered))
         return digits_entered
 
     @staticmethod
-    def _get_digits_required(self, context):
+    def _get_digits_required(context):
         digits_required = int([i["parameters"]["digits"] for i in context if i["name"] == "digits"][0])
         logging.debug("{} digits are required.".format(digits_required))
         return digits_required
-
-    @staticmethod
-    def _check_digit_lengths(self, digits_entered, digits_required):
-        if len(digits_entered) != digits_required:
-            raise ValueError("You must enter {0} and only {0} digits".format(digits_required))
 
