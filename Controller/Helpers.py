@@ -47,6 +47,9 @@ class Helpers(object):
                 if r.status_code == 404:
                     err_text = "The game engine reported a 404 (not found) error. The service may " \
                                "be temporarily unavailable"
+                if r.status_code == 400:
+                    json_output = r.json()
+                    err_text = "{} -- {}".format(json_output["message"], json_output["exception"])
                 raise IOError(err_text)
             else:
                 return r.json()
