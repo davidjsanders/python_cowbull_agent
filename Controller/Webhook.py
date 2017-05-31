@@ -22,11 +22,10 @@ class Webhook(MethodView):
             "contextOut": []
         }
 
-        request_object = {}
-
         # Step 1: Instantiate a helper
         helper = Helpers()
 
+        action_text = None
         try:
             # Step 2: Get and validate the JSON in the request
             request_object = helper.validate_json(request_data=request)
@@ -69,7 +68,7 @@ class Webhook(MethodView):
                 400,
                 "The json is badly formed. Missing key {}".format(str(ke))
             )
-        except ImportError as ie:
+        except ImportError:
             response_object = self._handle_error(
                 400,
                 "Sorry, the action you wanted ({}), isn't available yet.".format(action_text)
@@ -84,7 +83,8 @@ class Webhook(MethodView):
             mimetype="application/json"
         )
 
-    def _handle_error(self, error_code, error_msg):
+    @staticmethod
+    def _handle_error(error_code, error_msg):
         logging.debug("Error Raised: {} {}".format(error_code, error_msg))
 
         error_text = "{} {}".format(error_code, error_msg)
