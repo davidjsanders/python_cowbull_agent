@@ -19,8 +19,6 @@ class MakeGuess(AbstractAction):
             digits_entered = self._get_digits_entered(parameters)
 
             key = [n["parameters"]["key"] for n in context if n["name"] == "key"][0]
-
-            self._check_digit_lengths(digits_entered=digits_entered, digits_required=digits_required)
         except ValueError as ve:
             return {
                 "contextOut": [],
