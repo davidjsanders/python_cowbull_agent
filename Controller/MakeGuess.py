@@ -71,7 +71,7 @@ class MakeGuess(AbstractAction):
             response_text = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
 
         output = {
-            "contextOut": [],
+            "contextOut": context,
             "speech": response_text,
             "displayText": response_text
         }
