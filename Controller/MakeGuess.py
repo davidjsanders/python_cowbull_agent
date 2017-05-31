@@ -32,7 +32,7 @@ class MakeGuess(AbstractAction):
             }
 
         # Step 2 - Send the request to the game server
-        game_url = app.config.get("COWBULL_URL", None)
+        game_url = app.config.get("COWBULL_URL", None).format("game")
         if not game_url:
             raise ValueError("COWBULL_URL is not defined, so the game cannot be played")
 
