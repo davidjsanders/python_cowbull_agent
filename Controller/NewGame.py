@@ -1,5 +1,4 @@
 import logging
-import requests
 from Helpers import Helpers
 from InitializationPackage import app
 from AbstractAction import AbstractAction
@@ -42,7 +41,8 @@ class NewGame(AbstractAction):
 
         return output
 
-    def _fetch_game(self, mode=None):
+    @staticmethod
+    def _fetch_game(mode=None):
         output = {}
 
         game_url = app.config.get("COWBULL_URL", None)
@@ -77,7 +77,8 @@ class NewGame(AbstractAction):
         else:
             return False
 
-    def _fetch_modes(self):
+    @staticmethod
+    def _fetch_modes():
         game_url = app.config.get("COWBULL_URL", None)
         if not game_url:
             raise ValueError("COWBULL_URL is not defined, so the game cannot be played")
