@@ -95,7 +95,7 @@ class Webhook(MethodView):
             "data": {},
             "source": "cowbull-agent",
             "followupEvent": {},
-            "contextOut": ["InError"]
+            "contextOut": []
         }
 
         return response_object
