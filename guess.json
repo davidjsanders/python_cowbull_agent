@@ -1,37 +1,35 @@
 {
-  "id": "7f913a1f-53b5-4f35-8d33-56772dfefb7e",
-  "timestamp": "2017-05-30T18:11:07.634Z",
+  "id": "c99b6f18-89b3-4c9e-8cbf-254f23f4b484",
+  "timestamp": "2017-05-31T15:33:49.573Z",
   "lang": "en",
   "result": {
     "source": "agent",
-    "resolvedQuery": "i guess 1 2 3 4",
+    "resolvedQuery": "i guess 0 1 2 3",
     "action": "MakeGuess",
     "actionIncomplete": false,
     "parameters": {
       "digitlist": [
-        "3",
-        "4",
         "0",
-        "1"
+        "1",
+        "2",
+        "3"
       ]
     },
     "contexts": [
       {
         "name": "digits",
         "parameters": {
-          "mode": "normal",
           "digitlist": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ],
-          "mode.original": "normal",
           "digitlist.original": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ],
           "digits": 4
         },
@@ -40,19 +38,17 @@
       {
         "name": "served-by",
         "parameters": {
-          "mode": "normal",
           "digitlist": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ],
-          "mode.original": "normal",
           "digitlist.original": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ],
           "served-by": "cowbull-test-project.appspot.com"
         },
@@ -61,20 +57,18 @@
       {
         "name": "guesses",
         "parameters": {
-          "mode": "normal",
           "digitlist": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ],
           "guesses_remaining": 10,
-          "mode.original": "normal",
           "digitlist.original": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ]
         },
         "lifespan": 5
@@ -84,17 +78,17 @@
         "parameters": {
           "mode": "normal",
           "digitlist": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ],
           "mode.original": "normal",
           "digitlist.original": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ],
           "digits": "easy, normal, hard"
         },
@@ -103,21 +97,19 @@
       {
         "name": "key",
         "parameters": {
-          "mode": "normal",
           "digitlist": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ],
-          "mode.original": "normal",
           "digitlist.original": [
+            "0",
             "1",
             "2",
-            "3",
-            "4"
+            "3"
           ],
-          "key": "5c559b1b-0643-4778-bcaf-78881976a4ff"
+          "key": "102cc620-e86e-4f50-93a1-8e8de345c20c"
         },
         "lifespan": 5
       }
@@ -126,7 +118,7 @@
       "intentId": "11481c7d-9218-4089-ba66-ec3e1893cc65",
       "webhookUsed": "true",
       "webhookForSlotFillingUsed": "false",
-      "webhookResponseTime": 109,
+      "webhookResponseTime": 95,
       "intentName": "I guess"
     },
     "fulfillment": {
