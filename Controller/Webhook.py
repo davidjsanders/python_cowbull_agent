@@ -69,6 +69,10 @@ class Webhook(MethodView):
                 400,
                 "The json is badly formed. Missing key {}".format(str(ke))
             )
+        except ImportError as ie:
+            response_object["contextOut"] = request_object["contexts"]
+            response_object["speech"] = response_object["displayText"] = \
+                "Sorry, the action you wanted ({}), isn't available yet.".format(action_text)
         except Exception as e:
             response_object = self._handle_error(400, str(e))
 
