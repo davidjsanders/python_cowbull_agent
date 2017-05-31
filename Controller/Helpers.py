@@ -22,7 +22,7 @@ class Helpers(object):
     @staticmethod
     def execute_get_request(url=None):
         try:
-            logging.debug("fetch_new_game: Connecting to {}".format(url))
+            logging.debug("Helper: Connecting to {}".format(url))
             r = requests.get(url=url)
             #        except exceptions.ConnectionError as re:
             #            raise IOError("Game reported an error: {}".format(str(re)))
