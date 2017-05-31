@@ -1,5 +1,4 @@
 import logging
-import requests
 from AbstractAction import AbstractAction
 from Helpers import Helpers
 from InitializationPackage import app
@@ -65,7 +64,6 @@ class MakeGuess(AbstractAction):
         cows = outcome.get('cows', 0)
         bulls = outcome.get('bulls', 0)
 
-        response_text = None
         if status.lower() in ["won", "lost"]:
             response_text = message
         else:
