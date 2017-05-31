@@ -55,10 +55,7 @@ class NewGame(AbstractAction):
         game_object = helper.execute_get_request(url=url)
 
         output["contextOut"] = [
-            {"name": "digits", "lifespan": 15, "parameters": {"digits": game_object["digits"]}},
-            {"name": "guesses", "lifespan": 15, "parameters": {"guesses_remaining": game_object["guesses"]}},
-            {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}},
-            {"name": "served-by", "lifespan": 15, "parameters": {"served-by": game_object["served-by"]}}
+            {"name": "key", "lifespan": 15, "parameters": {"key": game_object["key"]}}
         ]
         output["speech"] = output["displayText"] = \
             "Okay, I've started a new game. You have {} guesses to guess {} numbers." \
