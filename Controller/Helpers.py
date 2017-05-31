@@ -1,4 +1,5 @@
 import importlib
+import json
 import logging
 import requests
 from flask import request
@@ -20,7 +21,43 @@ class Helpers(object):
         return getattr(mod, package_name)
 
     @staticmethod
+    def execute_post_request(url=None, data=None, headers=None):
+        if headers is not None and not isinstance(headers, dict):
+            raise TypeError("Headers supplied as a {}; it must be a dict".format(type(headers)))
+        if data is not None and not isinstance(data, dict):
+            raise TypeError("Data supplied as a {}; it must be a dict".format(type(data)))
+
+        if not headers:
+            headers = {"Content-Type": "application/json"}
+
+        if not (headers.get("content-type") or headers.get("Content-Type")):
+            headers["Content-Type"] = "application/json"
+
+        r = None
+        try:
+            #
+            logging.debug("Helper: Connecting to {}".format(url))
+            r = requests.post(url=url, data=json.dumps(data), headers=headers)
+        except Exception as e:
+            raise IOError("Game reported an exception: {}".format(repr(e)))
+
+        if r is not None:
+            if r.status_code != 200:
+                err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)
+                if r.status_code == 404:
+                    err_text = "The game engine reported a 404 (not found) error. The service may " \
+                               "be temporarily unavailable"
+                raise IOError(err_text)
+            else:
+                return r.json()
+        else:
+            err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)
+            raise IOError(err_text)
+
+
+    @staticmethod
     def execute_get_request(url=None):
+        r = None
         try:
             logging.debug("Helper: Connecting to {}".format(url))
             r = requests.get(url=url)

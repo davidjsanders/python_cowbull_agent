@@ -1,6 +1,7 @@
 import logging
 import requests
 from AbstractAction import AbstractAction
+from Helpers import Helpers
 from InitializationPackage import app
 
 
@@ -13,18 +14,30 @@ class MakeGuess(AbstractAction):
         logging.debug("MakeGuess: In do_action for make guess fulfillment")
         logging.debug("MakeGuess: Context: {}. Parameters: {}.".format(context, parameters))
 
-        # Step 1 - Validate the digits entered by the user and get the game key
+        # Step 1 - Get a helper
+        helper = Helpers()
+
+        # Step 1 - Get the digits entered by the user and get the game key
         try:
             digits_required = self._get_digits_required(context)
-            digits_entered = self._get_digits_entered(parameters)
-
-            key = [n["parameters"]["key"] for n in context if n["name"] == "key"][0]
+            user_data = {
+                "key": [n["parameters"]["key"] for n in context if n["name"] == "key"][0],
+                "digits": self._get_digits_entered(parameters)
+            }
         except ValueError as ve:
             return {
                 "contextOut": [],
                 "speech": str(ve),
                 "displayText": str(ve)
             }
+
+        # Step 2 - Send the request to the game server
+        game_url = app.config.get("COWBULL_URL", None)
+        if not game_url:
+            raise ValueError("COWBULL_URL is not defined, so the game cannot be played")
+
+        game_object = helper.execute_post_request(url=game_url, data=user_data)
+        logging.debug("Game object returned: {}".format(game_object))
 
         return {
             "status": 200,
