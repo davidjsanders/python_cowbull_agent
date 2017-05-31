@@ -66,15 +66,16 @@ class Webhook(MethodView):
 
         except KeyError as ke:
             response_object = self._handle_error(
-                200,
+                400,
                 "The json is badly formed. Missing key {}".format(str(ke))
             )
         except ImportError as ie:
-            response_object["contextOut"] = request_object["contexts"]
-            response_object["speech"] = response_object["displayText"] = \
+            response_object = self._handle_error(
+                400,
                 "Sorry, the action you wanted ({}), isn't available yet.".format(action_text)
+            )
         except Exception as e:
-            response_object = self._handle_error(200, str(e))
+            response_object = self._handle_error(400, str(e))
 
         # Step n: Return the response to the user.
         return Response(
@@ -86,9 +87,9 @@ class Webhook(MethodView):
     def _handle_error(self, error_code, error_msg):
         logging.debug("Error Raised: {} {}".format(error_code, error_msg))
 
-        error_text = "An error ({}) occurred: {}".format(error_code, error_msg)
+        error_text = "{} {}".format(error_code, error_msg)
         response_object = {
-            "status": error_code,
+            "status": 200,
             "message": "success",
             "speech": error_text,
             "displayText": error_text,
