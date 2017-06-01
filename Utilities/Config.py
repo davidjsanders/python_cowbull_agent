@@ -2,7 +2,8 @@ import logging
 import os
 import sys
 
-
+# ConfigParser differs between Python major versions 2 and 3; therefore, check
+# the version being used and import from the correct package. NB:
 if sys.version_info[0] == 2:
     from ConfigParser import ConfigParser
 else:
