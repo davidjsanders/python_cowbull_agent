@@ -1,0 +1,120 @@
+{
+  "id": "8ab9765c-6692-43ee-b8bf-8b3ee990b60b",
+  "timestamp": "2017-05-26T20:04:18.258Z",
+  "lang": "en",
+  "result": {
+    "source": "agent",
+    "resolvedQuery": "i guess 1 2 3 4",
+    "action": "makeguess",
+    "actionIncomplete": false,
+    "parameters": {
+      "digitlist": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "contexts": [
+      {
+        "name": "digits",
+        "parameters": {
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "digits": 4
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "guesses",
+        "parameters": {
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "guesses_remaining": 10,
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "served-by",
+        "parameters": {
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "served-by": "cowbull-test-project.appspot.com"
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "key",
+        "parameters": {
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "key": "81e084e6-57d7-4420-9a2d-8550df20eea1"
+        },
+        "lifespan": 5
+      }
+    ],
+    "metadata": {
+      "intentId": "11481c7d-9218-4089-ba66-ec3e1893cc65",
+      "webhookUsed": "true",
+      "webhookForSlotFillingUsed": "false",
+      "webhookResponseTime": 30,
+      "intentName": "I guess"
+    },
+    "fulfillment": {
+      "speech": "Oh shoot! It appears that the game server isn't available.",
+      "messages": [
+        {
+          "type": 0,
+          "speech": "Oh shoot! It appears that the game server isn't available."
+        }
+      ]
+    },
+    "score": 1
+  },
+  "status": {
+    "code": 206,
+    "errorType": "partial_content",
+    "errorDetails": "Webhook call failed. Error: Webhook response was empty."
+  },
+  "sessionId": "c31b5947-b9d1-43c5-9f3b-35e37bbc0437"
+}
