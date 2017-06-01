@@ -14,7 +14,9 @@ else:
 class Config(object):
     """
     Configuration helper for the python_cowbull_agent app. When initialized, the object
-    must be passed a Flask app
+    must be passed a Flask app and then stores the required settings in the object's
+    config dictionary. They can then be referenced anywhere the object is used; for example,
+    app.config["COWBULL_URL"] would return the setting for COWBULL_URL.
     """
     app = None
 
@@ -89,6 +91,14 @@ class Config(object):
                              "start.")
 
     def load(self, filename=None):
+        """
+        Load settings from a configuration file. The settings are loaded using ConfigParser.ConfigParser (
+        Python 2) and configparser.ConfigParser (Python 3). Follow the documentation at
+        https://docs.python.org/2/library/configparser.html (2+) and
+        https://docs.python.org/3.3/library/configparser.html (3+).
+        :param filename: a string representation of filename (and path), e.g. /path/to/config.ini. The file
+        may be called anything.
+        """
         self._check_app_set()
 
         if not filename or filename == "":
@@ -126,6 +136,11 @@ class Config(object):
                 self.app.config[parameter[0].upper()] = parameter[1]
 
     def dump(self):
+        """
+        dump logs the values of all expected settings from the Flask app.config dictionary to
+        the standard console out using debug statements. NOTE: If the logging level is set to
+        INFO or higher, these statements will NOT show.
+        """
         self._check_app_set()
 
         logging.debug("Agent Host is {}".format(self.app.config["AGENT_HOST"]))
@@ -136,5 +151,12 @@ class Config(object):
         logging.debug("Cowbull URL is {}".format(self.app.config["COWBULL_URL"]))
 
     def _check_app_set(self):
+        """
+        'Private' method which checks that the app is defined and that it is an instance of a Flask
+        object.
+        :return:
+        """
         if not self.app:
             raise ValueError("APP is undefined!!")
+        if not isinstance(self.app, Flask):
+            raise TypeError("Config APP is not an instance of a Flask object (i.e. app)")
