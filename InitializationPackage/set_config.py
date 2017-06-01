@@ -17,19 +17,32 @@ def set_config(app=None):
 
     config_file = os.getenv("CONFIG_FILE", None)
     if not config_file:
-        app.config["AGENT_HOST"] = os.getenv("AGENT_HOST", "0.0.0.0")
-        app.config["AGENT_PORT"] = os.getenv("AGENT_PORT", 5000)
-        app.config["AGENT_DEBUG"] = os.getenv("AGENT_DEBUG", True)
         app.config["LOGGING_FORMAT"] = os.getenv("LOGGING_FORMAT", "%(asctime)s %(levelname)s: %(message)s")
         app.config["LOGGING_LEVEL"] = os.getenv("LOGGING_LEVEL", 10)
-        app.config["COWBULL_URL"] = os.getenv("COWBULL_URL", None)
-        if not app.config["COWBULL_URL"]:
-            raise ValueError("The game server (environment variable COWBULL_URL) is not set! "
-                             "The agent cannot start.")
         logging.basicConfig(
             level=app.config["LOGGING_LEVEL"],
             format=app.config["LOGGING_FORMAT"]
         )
+
+        app.config["AGENT_HOST"] = os.getenv("AGENT_HOST", "0.0.0.0")
+        agent_port = os.getenv("AGENT_PORT", -1)
+        if agent_port == -1:
+            agent_port = 5000
+        else:
+            logging.debug("** AGENT PORT SET ** Docker will ignore this value.")
+        app.config["AGENT_PORT"] = agent_port
+
+        agent_debug = os.getenv("AGENT_DEBUG", -1)
+        if agent_debug == -1:
+            agent_debug = True
+        else:
+            logging.debug("** AGENT DEBUG SET ** Docker will ignore this value.")
+        app.config["AGENT_DEBUG"] = agent_debug
+
+        app.config["COWBULL_URL"] = os.getenv("COWBULL_URL", None)
+        if not app.config["COWBULL_URL"]:
+            raise ValueError("The game server (environment variable COWBULL_URL) is not set! "
+                             "The agent cannot start.")
     else:
         pass
 
