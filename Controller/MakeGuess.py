@@ -1,5 +1,4 @@
 import logging
-import requests
 from AbstractAction import AbstractAction
 from Helpers import Helpers
 from InitializationPackage import app
@@ -19,7 +18,6 @@ class MakeGuess(AbstractAction):
 
         # Step 1 - Get the digits entered by the user and get the game key
         try:
-            digits_required = self._get_digits_required(context)
             user_data = {
                 "key": [n["parameters"]["key"] for n in context if n["name"] == "key"][0],
                 "digits": self._get_digits_entered(parameters)
@@ -39,6 +37,23 @@ class MakeGuess(AbstractAction):
         guess_analysis = helper.execute_post_request(url=game_url, data=user_data)
         logging.debug("Game object returned: {}".format(guess_analysis))
 
+        # Step 3 - Analyze the guess
+        response_text = self._analyze_result(guess_analysis=guess_analysis)
+
+        # Step 4 - Return the results
+        output = {
+            "contextOut": context,
+            "speech": response_text,
+            "displayText": response_text
+        }
+
+        return output
+
+    def do_slot(self, context, parameters):
+        pass
+
+    @staticmethod
+    def _analyze_result(guess_analysis):
         game = guess_analysis.get('game', None)
         status = game.get('status', None)
         guesses_remaining = int(game.get('guesses_remaining', 0))
@@ -49,7 +64,6 @@ class MakeGuess(AbstractAction):
         cows = outcome.get('cows', 0)
         bulls = outcome.get('bulls', 0)
 
-        response_text = None
         if status.lower() in ["won", "lost"]:
             response_text = message
         else:
@@ -70,26 +84,10 @@ class MakeGuess(AbstractAction):
             message_text += "You have {} goes remaining!".format(guesses_remaining)
             response_text = "You have {} cows and {} bulls. {}".format(cows, bulls, message_text)
 
-        output = {
-            "contextOut": context,
-            "speech": response_text,
-            "displayText": response_text
-        }
-
-        return output
-
-    def do_slot(self, context, parameters):
-        pass
+        return response_text
 
     @staticmethod
     def _get_digits_entered(parameters):
         digits_entered = [int(i) for i in parameters["digitlist"]]
         logging.debug("The digits input were: {}".format(digits_entered))
         return digits_entered
-
-    @staticmethod
-    def _get_digits_required(context):
-        digits_required = int([i["parameters"]["digits"] for i in context if i["name"] == "digits"][0])
-        logging.debug("{} digits are required.".format(digits_required))
-        return digits_required
-
