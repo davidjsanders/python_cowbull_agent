@@ -1,7 +1,8 @@
 import logging
-from Controller.Helpers import Helpers
-from InitializationPackage import app
+
 from Controller.AbstractAction import AbstractAction
+from InitializationPackage import app
+from Utilities.Helpers import Helpers
 
 
 class NewGame(AbstractAction):

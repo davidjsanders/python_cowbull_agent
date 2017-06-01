@@ -1,9 +1,11 @@
 import json
 import logging
-from Controller.AbstractAction import AbstractAction
+
 from flask import request, Response
-from Controller.Helpers import Helpers
 from flask.views import MethodView
+
+from Controller.AbstractAction import AbstractAction
+from Utilities.Helpers import Helpers
 
 
 class Webhook(MethodView):

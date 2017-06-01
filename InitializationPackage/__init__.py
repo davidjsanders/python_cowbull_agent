@@ -1,9 +1,9 @@
-from InitializationPackage.set_config import set_config
-from InitializationPackage.log_config import log_config
+import os
 from flask import Flask
+from Utilities.Config import Config
 
 
-# Step 1 - Get Configuration data
+# Initialize the Flask app
 app = Flask(
     __name__,
     template_folder='../templates',
@@ -11,14 +11,19 @@ app = Flask(
     static_path='/static/'
 )
 
-set_config(app=app)
-log_config(app=app)
-#if config_file:
-#    set_config(config_file=config_file, app=app)
-#else:
-#    app.config["AGENT_HOST"] = "0.0.0.0"
-#    app.config["AGENT_PORT"] = 5000
-#    app.config["AGENT_DEBUG"] = True
-#    app.config["LOGGING_FORMAT"] = "%(asctime)s %(levelname)s: %(message)s"
-#    app.config["LOGGING_LEVEL"] = 10
-#    app.config["COWBULL_URL"] = "https://cowbull-test-project.appspot.com/v0_1/{}"
+# Get a configuration helper
+config = Config(app=app)
+config.dump()
+
+# Get any OS Env Var set for CONFIG_FILE
+config_file = os.getenv("CONFIG_FILE", None)
+
+# If a configuration file was specified, then use values from there.
+if config_file:
+    config.load(filename=config_file)
+
+# Validate the configuration
+config.validate()
+
+# Dump the configuration that's been set.
+config.dump()

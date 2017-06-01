@@ -1,7 +1,8 @@
 import logging
+
 from Controller.AbstractAction import AbstractAction
-from Controller.Helpers import Helpers
 from InitializationPackage import app
+from Utilities.Helpers import Helpers
 
 
 class MakeGuess(AbstractAction):
