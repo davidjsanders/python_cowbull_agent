@@ -9,7 +9,7 @@ WORKDIR		/cowbull
 COPY		requirements.txt /cowbull
 RUN		    pip install -q -r /cowbull/requirements.txt
 USER		cowbull
-#ENV			PYTHONPATH="/cowbull"
+ENV			PYTHONPATH="/cowbull/"
 COPY		Controller /cowbull/Controller/
 COPY        InitializationPackage /cowbull/InitializationPackage/
 COPY        app.py  /cowbull/

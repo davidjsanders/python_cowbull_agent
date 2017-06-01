@@ -1,6 +1,6 @@
 import json
 import logging
-from AbstractAction import AbstractAction
+from Controller.AbstractAction import AbstractAction
 from flask import request, Response
 from Controller.Helpers import Helpers
 from flask.views import MethodView
