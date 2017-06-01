@@ -1,9 +1,10 @@
-import logging
-import os
-import sys
+import logging  # Use Python's standard logging
+import os       # For getting OS environment variables
+import sys      # For getting the Python version number
+from flask import Flask
 
 # ConfigParser differs between Python major versions 2 and 3; therefore, check
-# the version being used and import from the correct package. NB:
+# the version being used and import from the correct package.
 if sys.version_info[0] == 2:
     from ConfigParser import ConfigParser
 else:
@@ -11,11 +12,18 @@ else:
 
 
 class Config(object):
+    """
+    Configuration helper for the python_cowbull_agent app. When initialized, the object
+    must be passed a Flask app
+    """
     app = None
 
     def __init__(self, app=None):
         if not app:
             raise ValueError("A flask app must be passed to the configuration object.")
+        if not isinstance(app, Flask):
+            raise TypeError("Config must be passed an instance of a Flask object (i.e. app)")
+
         self.app = app
         self.app.config["LOGGING_FORMAT"] = os.getenv(
             "LOGGING_FORMAT",
