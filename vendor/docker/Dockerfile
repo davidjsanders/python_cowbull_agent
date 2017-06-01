@@ -12,6 +12,7 @@ USER		cowbull
 ENV			PYTHONPATH="/cowbull/"
 COPY		Controller /cowbull/Controller/
 COPY        InitializationPackage /cowbull/InitializationPackage/
+COPY        Utilities /cowbull/Utilities/
 COPY        app.py  /cowbull/
 COPY        LICENSE /cowbull/
 CMD			["gunicorn", "-b", "0.0.0.0:5000", "-w", "4", "app:app"]
