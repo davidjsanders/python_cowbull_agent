@@ -1,0 +1,36 @@
+{
+  "id": "7e3f94c9-636c-4b07-b394-425c56f48116",
+  "timestamp": "2017-05-25T01:01:51.92Z",
+  "lang": "en",
+  "result": {
+    "source": "agent",
+    "resolvedQuery": "play a normal game",
+    "action": "NewGame",
+    "actionIncomplete": false,
+    "parameters": {
+      "mode": "normal"
+    },
+    "contexts": [],
+    "metadata": {
+      "intentId": "e23ee4d7-8fb8-4c89-bd13-5c836b65ddf7",
+      "webhookUsed": "false",
+      "webhookForSlotFillingUsed": "false",
+      "intentName": "New Game"
+    },
+    "fulfillment": {
+      "speech": "Okay, let's start a game!",
+      "messages": [
+        {
+          "type": 0,
+          "speech": "Okay, let's start a game!"
+        }
+      ]
+    },
+    "score": 1
+  },
+  "status": {
+    "code": 200,
+    "errorType": "success"
+  },
+  "sessionId": "28a8d075-b521-4e31-9786-a5ccde6b27c6"
+}

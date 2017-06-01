@@ -1,0 +1,151 @@
+{
+  "id": "7f913a1f-53b5-4f35-8d33-56772dfefb7e",
+  "timestamp": "2017-05-30T18:11:07.634Z",
+  "lang": "en",
+  "result": {
+    "source": "agent",
+    "resolvedQuery": "i guess 1 2 3 4",
+    "action": "MakeGuess",
+    "actionIncomplete": false,
+    "parameters": {
+      "digitlist": [
+        "3",
+        "4",
+        "0",
+        "1"
+      ]
+    },
+    "contexts": [
+      {
+        "name": "digits",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "digits": 4
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "served-by",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "served-by": "cowbull-test-project.appspot.com"
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "guesses",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "guesses_remaining": 10,
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "lifespan": 5
+      },
+      {
+        "name": "modes",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "digits": "easy, normal, hard"
+        },
+        "lifespan": 13
+      },
+      {
+        "name": "key",
+        "parameters": {
+          "mode": "normal",
+          "digitlist": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "mode.original": "normal",
+          "digitlist.original": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "key": "5c559b1b-0643-4778-bcaf-78881976a4ff"
+        },
+        "lifespan": 5
+      }
+    ],
+    "metadata": {
+      "intentId": "11481c7d-9218-4089-ba66-ec3e1893cc65",
+      "webhookUsed": "true",
+      "webhookForSlotFillingUsed": "false",
+      "webhookResponseTime": 109,
+      "intentName": "I guess"
+    },
+    "fulfillment": {
+      "speech": "Coming soon! Sorry, it's not ready yet.",
+      "source": "cowbull-agent",
+      "displayText": "Coming soon! Sorry, it's not ready yet.",
+      "messages": [
+        {
+          "type": 0,
+          "speech": "Coming soon! Sorry, it's not ready yet."
+        }
+      ],
+      "data": {}
+    },
+    "score": 1
+  },
+  "status": {
+    "code": 200,
+    "errorType": "success"
+  },
+  "sessionId": "c31b5947-b9d1-43c5-9f3b-35e37bbc0437"
+}
