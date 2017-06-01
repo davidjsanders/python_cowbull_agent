@@ -18,7 +18,7 @@ def set_config(app=None):
     config_file = os.getenv("CONFIG_FILE", None)
     if not config_file:
         app.config["LOGGING_FORMAT"] = os.getenv("LOGGING_FORMAT", "%(asctime)s %(levelname)s: %(message)s")
-        app.config["LOGGING_LEVEL"] = os.getenv("LOGGING_LEVEL", 10)
+        app.config["LOGGING_LEVEL"] = int(os.getenv("LOGGING_LEVEL", 10))
         logging.basicConfig(
             level=app.config["LOGGING_LEVEL"],
             format=app.config["LOGGING_FORMAT"]
