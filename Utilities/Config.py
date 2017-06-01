@@ -102,7 +102,8 @@ class Config(object):
 
         Important Notes:
         1. Although sections are supported, they are ignored. For example a section [foo] with
-        a setting bar will be imported into the app.config dictionary but is never used.
+        a setting bar will be imported into the app.config dictionary as bar. If another section
+        appears later with another setting called bar, it WILL overwrite the first setting.
         2. When the setting is called from app.config, it is up to the caller to cast the setting
         to the correct type.
 
