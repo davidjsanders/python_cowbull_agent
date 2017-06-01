@@ -1,6 +1,12 @@
 import logging
 import os
-from ConfigParser import ConfigParser
+import sys
+
+
+if sys.version_info[0] == 2:
+    from ConfigParser import ConfigParser
+else:
+    from configparser import ConfigParser
 
 
 class Config(object):
