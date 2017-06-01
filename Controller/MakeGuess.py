@@ -1,6 +1,6 @@
 import logging
-from AbstractAction import AbstractAction
-from Helpers import Helpers
+from Controller.AbstractAction import AbstractAction
+from Controller.Helpers import Helpers
 from InitializationPackage import app
 
 

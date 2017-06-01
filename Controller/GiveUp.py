@@ -1,4 +1,4 @@
-from AbstractAction import AbstractAction
+from Controller.AbstractAction import AbstractAction
 
 
 class GiveUp(AbstractAction):
