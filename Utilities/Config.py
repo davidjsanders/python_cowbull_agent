@@ -19,12 +19,23 @@ class Config(object):
     app = None
 
     def __init__(self, app=None):
+        """
+        Initializes the Config object and loads configuration from environment variables. The caller
+        may then load additional settings from file(s) by calling Config.load(filename=). The object
+        also includes a validate method, which allows
+        :param app: Flask - A Flask object, typically initiated as...  app = Flask(...)
+        """
         if not app:
             raise ValueError("A flask app must be passed to the configuration object.")
         if not isinstance(app, Flask):
             raise TypeError("Config must be passed an instance of a Flask object (i.e. app)")
 
+        # Store the Flask object passed to the instantiation
         self.app = app
+
+        # Set any values from env vars. NOTE: Logging format and level are THE ONLY values
+        # to be defaulted. This is to enable Config itself to issue debug statements.
+        #
         self.app.config["LOGGING_FORMAT"] = os.getenv(
             "LOGGING_FORMAT",
             "[%(asctime)s] [%(levelname)s]: %(message)s"
@@ -35,12 +46,19 @@ class Config(object):
             format=self.app.config["LOGGING_FORMAT"]
         )
 
+        # Get any env vars for config. NOTE, defaults are None.
         self.app.config["AGENT_HOST"] = os.getenv("AGENT_HOST", None)
         self.app.config["AGENT_PORT"] = os.getenv("AGENT_PORT", None)
         self.app.config["AGENT_DEBUG"] = os.getenv("AGENT_DEBUG", None)
         self.app.config["COWBULL_URL"] = os.getenv("COWBULL_URL", None)
 
     def validate(self):
+        """
+        Validate ensures that all settings have been configured or defaults them where
+        possible. The only exception which will be raised is if the COWBULL_URL (the URL
+        for the game server) has not been set, as the agent cannot run without it and
+        cannot guess it.
+        """
         self._check_app_set()
 
         logging_level = self.app.config["LOGGING_LEVEL"] or None
