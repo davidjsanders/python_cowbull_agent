@@ -2,20 +2,12 @@ from __future__ import print_function
 
 import logging
 from InitializationPackage import app
-from OldWebhookController.WebhookHandler import WebhookHandler
 from Controller.Webhook import Webhook
 
 
 logging.basicConfig(
     format=app.config["LOGGING_FORMAT"],
     level=app.config["LOGGING_LEVEL"]
-)
-
-old_webhook_handler = WebhookHandler.as_view('oldWebhook')
-app.add_url_rule(
-    rule='/old',
-    view_func=old_webhook_handler,
-    methods=["POST"]
 )
 
 webhook_handler = Webhook.as_view('webhook')
