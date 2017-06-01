@@ -19,6 +19,7 @@ class Config(object):
     app.config["COWBULL_URL"] would return the setting for COWBULL_URL.
     """
     app = None
+    """the representation of the Flask object"""
 
     def __init__(self, app=None):
         """
