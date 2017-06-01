@@ -99,6 +99,13 @@ class Config(object):
         https://docs.python.org/3.3/library/configparser.html (3+).
         :param filename: a string representation of filename (and path), e.g. /path/to/config.ini. The file
         may be called anything.
+
+        Important Notes:
+        1. Although sections are supported, they are ignored. For example a section [foo] with
+        a setting bar will be imported into the app.config dictionary but is never used.
+        2. When the setting is called from app.config, it is up to the caller to cast the setting
+        to the correct type.
+
         """
         self._check_app_set()
 
