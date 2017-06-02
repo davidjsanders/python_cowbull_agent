@@ -1,5 +1,6 @@
 ############################################################################
 # Module: Config.py                                                        #
+# Author: D Sanders                                                        #
 ############################################################################
 # Purpose: Configuration helper for the python_cowbull_agent app. When     #
 # initialized, the object must be passed a Flask app and then stores the   #

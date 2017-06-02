@@ -1,8 +1,16 @@
+############################################################################
+# Module: Helpers.py                                                       #
+# Author: D Sanders                                                        #
+############################################################################
+# Purpose:                      #
+#                                                                          #
+#                                                                          #
+############################################################################
+
 import importlib
 import json
 import logging
 import requests
-from flask import request
 
 
 class Helpers(object):

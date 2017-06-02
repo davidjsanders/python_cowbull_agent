@@ -1,5 +1,6 @@
 ############################################################################
 # Module: __init__.py                                                      #
+# Author: D Sanders                                                        #
 ############################################################################
 # Purpose: Initializes the application, creates an instance of a Flask     #
 #          object (app), and sets the configuration of the app. app is     #
