@@ -1,9 +1,21 @@
+############################################################################
+# Module: __init__.py                                                      #
+############################################################################
+# Purpose: Initializes the application, creates an instance of a Flask     #
+#          object (app), and sets the configuration of the app. app is     #
+#          created in an initialization package so it can be imported in   #
+#          any package or module within the app.                           #
+############################################################################
+
 import os
 from flask import Flask
 from Utilities.Config import Config
 
 
-# Initialize the Flask app
+# Initialize the Flask app and set the location of templates and statics
+# folders, even though they aren't used in this app - they may be needed
+# in future.
+
 app = Flask(
     __name__,
     template_folder='../templates',
@@ -11,19 +23,9 @@ app = Flask(
     static_path='/static/'
 )
 
-# Get a configuration helper
+# Get a configuration helper that will be used to set configuration values
+# such as the URL of the game server.
 config = Config(app=app)
-config.dump()
 
-# Get any OS Env Var set for CONFIG_FILE
-config_file = os.getenv("CONFIG_FILE", None)
-
-# If a configuration file was specified, then use values from there.
-if config_file:
-    config.load(filename=config_file)
-
-# Validate the configuration
-config.validate()
-
-# Dump the configuration that's been set.
+# For logging purposes, dump the configuration.
 config.dump()

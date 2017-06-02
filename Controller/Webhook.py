@@ -28,7 +28,7 @@ class Webhook(MethodView):
 
         action_text = None
         try:
-            # Step 2: Get and validate the JSON in the request
+            # Step 2: Get and _validate the JSON in the request
             request_object = helper.validate_json(request_data=request)
             if request_object == {}:
                 raise ValueError("The request object returned is None!")
