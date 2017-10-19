@@ -77,6 +77,7 @@ class Helpers(object):
         except Exception as e:
             raise IOError("Game reported an exception: {}".format(repr(e)))
 
+        logging.debug("_fetch_game: Game response --> {}".format(r.text))
         if r is not None:
             if r.status_code != 200:
                 err_text = "Game reported an error: HTML Status Code = {}".format(r.status_code)

@@ -44,6 +44,7 @@ class NewGame(AbstractAction):
 
     @staticmethod
     def _fetch_game(mode=None):
+        logging.debug("_fetch_game: Start")
         output = {}
 
         game_url = app.config.get("COWBULL_URL", None)
@@ -51,6 +52,7 @@ class NewGame(AbstractAction):
             raise ValueError("COWBULL_URL is not defined, so the game cannot be played")
 
         url = game_url.format("game") + "?mode={}".format(mode)
+        logging.debug("_fetch_game: Game URL is {}".format(url))
 
         helper = Helpers()
         game_object = helper.execute_get_request(url=url)
