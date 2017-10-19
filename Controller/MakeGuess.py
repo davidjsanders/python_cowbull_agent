@@ -62,7 +62,7 @@ class MakeGuess(AbstractAction):
         guesses_remaining = int(game.get('guesses_remaining', 0))
 
         outcome = guess_analysis.get('outcome', None)
-        message = outcome.get('message', None)
+        message = outcome.get('status', None)
         analysis = outcome.get('analysis', None)
         cows = outcome.get('cows', 0)
         bulls = outcome.get('bulls', 0)
