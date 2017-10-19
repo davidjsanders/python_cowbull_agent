@@ -51,7 +51,7 @@ class NewGame(AbstractAction):
         if not game_url:
             raise ValueError("COWBULL_URL is not defined, so the game cannot be played")
 
-        url = game_url.format("game") + "?mode={}".format(mode)
+        url = game_url.format("game") + "?mode={}".format(mode.capitalize())
         logging.debug("_fetch_game: Game URL is {}".format(url))
 
         helper = Helpers()
