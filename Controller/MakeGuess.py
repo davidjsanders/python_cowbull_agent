@@ -57,6 +57,8 @@ class MakeGuess(AbstractAction):
     def _analyze_result(guess_analysis):
         game = guess_analysis.get('game', None)
         status = game.get('status', None)
+        logging.debug("_analyze_result: Game status is {} ".format(status))
+
         guesses_remaining = int(game.get('guesses_remaining', 0))
 
         outcome = guess_analysis.get('outcome', None)
