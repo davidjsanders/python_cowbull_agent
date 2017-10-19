@@ -90,5 +90,7 @@ class NewGame(AbstractAction):
 
         helper = Helpers()
         game_mode_query = helper.execute_get_request(url=url)
-        return str([str(mode["mode"]) for mode in game_mode_query]) \
+
+        modes = game_mode_query["modes"]
+        return str([str(mode["mode"]) for mode in modes]) \
             .replace('[', '').replace(']', '').replace("'", "")
