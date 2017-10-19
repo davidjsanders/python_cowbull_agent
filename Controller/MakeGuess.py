@@ -59,7 +59,14 @@ class MakeGuess(AbstractAction):
         status = game.get('status', None)
         logging.debug("_analyze_result: Game status is {} ".format(status))
 
-        guesses_remaining = int(game.get('guesses_remaining', 0))
+        guesses_made = int(game.get('guesses_made', 0))
+        guesses_allowed = int(game.get('mode').get('guesses_allowed'))
+        guesses_remaining = guesses_allowed - guesses_made
+        logging.debug("_analyze_result: Guesses remaining are {} ( {} - {} )".format(
+            guesses_remaining,
+            guesses_allowed,
+            guesses_made
+        ))
 
         outcome = guess_analysis.get('outcome', None)
         message = outcome.get('status', None)
