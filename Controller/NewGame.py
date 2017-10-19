@@ -72,7 +72,7 @@ class NewGame(AbstractAction):
     def _validate_mode(self, mode):
         # TODO Add caching for the game modes to avoid unwanted round trips
 
-        _mode = mode or "Normal"
+        _mode = mode.capitalize() or "Normal"
 
         logging.debug("_validate_mode: Checking mode(s)")
 
